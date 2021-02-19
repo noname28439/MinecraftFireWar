@@ -1,0 +1,6 @@
+name: FireFight
+version: 0.1
+main: main.Main
+
+commands:
+   test:
