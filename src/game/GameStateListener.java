@@ -3,6 +3,7 @@ package game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,9 @@ public class GameStateListener implements Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
+			e.setCancelled(true);
+		
 		if(p.getInventory().getItemInMainHand()!=null) {
 			ItemStack inHand = p.getInventory().getItemInMainHand();
 			
@@ -24,10 +28,19 @@ public class GameStateListener implements Listener {
 			}
 			
 			
-		}
+		}	
+	}
+	
+	@EventHandler
+	public void onDrop(PlayerDropItemEvent e) {
+		Player p = e.getPlayer();
 		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
+			e.setCancelled(true);
 		
 	}
+	
+	
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {

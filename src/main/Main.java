@@ -1,6 +1,8 @@
 package main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Wolf;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +13,8 @@ import game.LobbyState;
 
 public class Main extends JavaPlugin{
 
+	public static World mainWorld = Bukkit.getWorld("world");
+	
 	@Override
 	public void onEnable() {
 		GameStateManager.setGameState(new LobbyState());

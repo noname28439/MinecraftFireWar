@@ -1,14 +1,19 @@
 package game;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import main.Main;
 import net.md_5.bungee.api.ChatColor;
 
 public class LobbyState extends GameState{
+	
+	static World lobbyWorld = Main.mainWorld;
 	
 	public static ItemStack TeamSelector() {
 		ItemStack item = new ItemStack(Material.COMPASS);
@@ -26,8 +31,11 @@ public class LobbyState extends GameState{
 	
 	@Override
 	public void start() {
+		lobbyWorld.setDifficulty(Difficulty.PEACEFUL);
+		lobbyWorld.setTime(1000);
 		for(Player cp : Bukkit.getOnlinePlayers())
 			setInventory(cp);
+			
 		
 	}
 
