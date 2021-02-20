@@ -14,4 +14,7 @@ public class BuildState extends GameState{
 		
 	}
 
+	@Override
+	int getID() {return GameStateManager.BuildState;}
+	
 }
