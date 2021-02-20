@@ -2,6 +2,8 @@ package main;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import commads.TestCMD;
+
 public class Main extends JavaPlugin{
 
 	@Override

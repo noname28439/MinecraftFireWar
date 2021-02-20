@@ -1,4 +1,4 @@
-package main;
+package commads;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
