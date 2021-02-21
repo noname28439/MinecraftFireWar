@@ -1,0 +1,48 @@
+package teams;
+
+import java.util.ArrayList;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
+public enum Team {
+
+	
+	RED("Rot", Material.RED_WOOL, ChatColor.RED),
+	BLUE("Blau", Material.BLUE_WOOL, ChatColor.BLUE);
+	
+	private String teamName;
+	private ChatColor chatColor;
+	private Material button;
+	
+	public boolean hasBed = true;
+	
+	private ArrayList<Player> teamPlayers;
+	
+	public static final int MAX_PLAYERS_PER_TEAM = 4;
+	
+	private Team(String teamName, Material button, ChatColor chatColor) {
+		this.teamName = teamName;
+		this.button = button;
+		this.chatColor = chatColor;
+		
+		teamPlayers=new ArrayList<>();
+	}
+	
+	public ArrayList<Player> getTeamPlayers() {
+		return teamPlayers;
+	}
+	
+	public String getTeamName() {
+		return teamName;
+	}
+	
+	public ChatColor getChatColor() {
+		return chatColor;
+	}
+	public Material getButtonMaterial() {
+		return button;
+	}
+	
+}

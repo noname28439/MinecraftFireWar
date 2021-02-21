@@ -3,12 +3,14 @@ package game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
+import teams.TeamManager;
 
 public class GameStateListener implements Listener {
 
@@ -23,7 +25,8 @@ public class GameStateListener implements Listener {
 			ItemStack inHand = p.getInventory().getItemInMainHand();
 			
 			if(inHand.equals(LobbyState.TeamSelector())) {
-				//Open TeamSelection Inventory
+				if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
+				p.openInventory(TeamManager.getSelectionInventory());
 				
 			}
 			
