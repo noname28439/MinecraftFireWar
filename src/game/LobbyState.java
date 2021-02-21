@@ -31,8 +31,12 @@ public class LobbyState extends GameState{
 	
 	@Override
 	public void start() {
-		lobbyWorld.setDifficulty(Difficulty.PEACEFUL);
-		lobbyWorld.setTime(1000);
+		if(lobbyWorld!=null) {
+			lobbyWorld.setDifficulty(Difficulty.PEACEFUL);
+			lobbyWorld.setTime(1000);
+		}else
+			System.out.println("Warnung: LobbyWorld = null! (LobbyState.start)");
+		
 		for(Player cp : Bukkit.getOnlinePlayers())
 			setInventory(cp);
 			
