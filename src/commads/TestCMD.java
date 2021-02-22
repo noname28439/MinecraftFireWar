@@ -20,6 +20,14 @@ public class TestCMD implements CommandExecutor {
 		if(p.isOp())
 			GameStateManager.setGameState(new BuildState());
 		
+		if(args.length==1)
+			if(args[0].equalsIgnoreCase("skip"))
+				if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+					BuildState state = (BuildState) GameStateManager.getCurrentGameState();
+					state.seconds = BuildState.BuildTimeSec;
+				}
+					
+		
 		return false;
 	}
 

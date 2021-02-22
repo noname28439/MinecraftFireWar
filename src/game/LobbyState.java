@@ -62,6 +62,7 @@ public class LobbyState extends GameState{
 	}
 
 	@Override
+	public
 	int getID() {return GameStateManager.LobbyState;}
 
 

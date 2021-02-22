@@ -91,6 +91,7 @@ public class FightState extends GameState{
 	}
 
 	@Override
+	public
 	int getID() {return GameStateManager.FightState;}
 	
 }

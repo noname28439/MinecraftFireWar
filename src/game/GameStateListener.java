@@ -162,7 +162,7 @@ public class GameStateListener implements Listener {
 			if(projectile.getType().equals(EntityType.ARROW)) {
 				e.getEntity().remove();
 				if(e.getHitBlock()!=null)
-					if(new Random().nextInt(10)==0)
+					if(new Random().nextInt(5)==0)
 						e.getHitBlock().setType(Material.FIRE);
 					else
 						e.getHitBlock().setType(Material.AIR);
