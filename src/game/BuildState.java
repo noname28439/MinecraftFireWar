@@ -89,9 +89,6 @@ public class BuildState extends GameState{
 				seconds++;
 				//Bukkit.broadcastMessage("tick! ["+seconds+"]");
 				
-				for(Player cp : Bukkit.getOnlinePlayers())
-					if(TeamManager.getPlayerTeam(cp)!=null)
-						givePlayerRandomBuildItem(cp);
 				
 				switch (seconds) {
 				case 1:
@@ -109,7 +106,20 @@ public class BuildState extends GameState{
 				
 				if(seconds>BuildTimeSec) {
 					GameStateManager.setGameState(new FightState());
+					return;
 				}
+				
+				for(Player cp : Bukkit.getOnlinePlayers())
+					if(TeamManager.getPlayerTeam(cp)!=null) {
+						givePlayerRandomBuildItem(cp);
+						
+						cp.setLevel(BuildTimeSec-seconds);
+						
+//						if((BuildTimeSec-seconds)>0)
+//							cp.setLevel(BuildTimeSec-seconds);
+//						else
+//							cp.setLevel(0);
+					}
 				
 			}
 		}, 1*20, 1*20);
@@ -130,6 +140,7 @@ public class BuildState extends GameState{
 		}
 		System.out.println("Setting up World!");
 		Bukkit.getWorld(worldName).getBlockAt(0, 10, 0).setType(Material.COBWEB);
+		Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", "1");
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
 			cp.teleport(new Location(Bukkit.getWorld(worldName), 0, 100, 0));
@@ -164,8 +175,8 @@ public class BuildState extends GameState{
 	@Override
 	public void stop() {
 		Bukkit.getScheduler().cancelTask(SchedulerID);
-		for(Player cp : Bukkit.getOnlinePlayers())
-			cp.getInventory().clear();
+//		for(Player cp : Bukkit.getOnlinePlayers())
+//			cp.getInventory().clear();
 		
 	}
 
