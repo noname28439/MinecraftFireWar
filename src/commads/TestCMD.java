@@ -17,15 +17,20 @@ public class TestCMD implements CommandExecutor {
 		
 		p.sendMessage("Test geklappt, du Schluri!");
 		
-		if(p.isOp())
-			GameStateManager.setGameState(new BuildState());
 		
-		if(args.length==1)
+		
+		
+		if(p.isOp())
+		if(args.length==1) {
 			if(args[0].equalsIgnoreCase("skip"))
 				if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
 					BuildState state = (BuildState) GameStateManager.getCurrentGameState();
-					state.seconds = BuildState.BuildTimeSec;
+					state.seconds = BuildState.BuildTimeSec-10;
 				}
+			if(args[0].equalsIgnoreCase("start"))
+				GameStateManager.setGameState(new BuildState());
+		}
+			
 					
 		
 		return false;

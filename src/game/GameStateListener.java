@@ -35,7 +35,8 @@ public class GameStateListener implements Listener {
 		Player p = e.getPlayer();
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
-			e.setCancelled(true);
+			if(!p.isOp())
+				e.setCancelled(true);
 		
 		if(p.getInventory().getItemInMainHand()!=null) {
 			ItemStack inHand = p.getInventory().getItemInMainHand();
@@ -53,13 +54,15 @@ public class GameStateListener implements Listener {
 				if(e.getClickedBlock().getType()==Material.TNT) {
 					if(!FightState.blockDelays.containsKey(e.getClickedBlock())) {
 						
-						int choice = new Random().nextInt(3);
+						int choice = new Random().nextInt(4);
 						
 						if(choice==0)
 							e.getPlayer().getInventory().addItem(new ItemStack(Material.TRIDENT, 1));
 						if(choice==1)
 							e.getPlayer().getInventory().addItem(new ItemStack(Material.EGG, 1));
 						if(choice==2)
+							e.getPlayer().getInventory().addItem(new ItemStack(Material.FEATHER, 1));
+						if(choice==3)
 							e.getPlayer().getInventory().addItem(new ItemStack(Material.FEATHER, 1));
 						
 						FightState.blockDelays.put(e.getClickedBlock(), 10);
@@ -88,7 +91,8 @@ public class GameStateListener implements Listener {
 		Player p = e.getPlayer();
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
-			e.setCancelled(true);
+			if(!p.isOp())
+				e.setCancelled(true);
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			if(e.getPlayer().getItemInHand().getType()==Material.BOW||e.getPlayer().getItemInHand().getType()==Material.ARROW)
 				e.setCancelled(true);
@@ -160,13 +164,13 @@ public class GameStateListener implements Listener {
 					e.getHitBlock().setType(Material.FIRE);
 			
 			if(projectile.getType().equals(EntityType.ARROW)) {
-				e.getEntity().remove();
 				if(e.getHitBlock()!=null)
 					if(new Random().nextInt(5)==0)
 						e.getHitBlock().setType(Material.FIRE);
 					else
 						e.getHitBlock().setType(Material.AIR);
 			}
+			e.getEntity().remove();
 			
 		}
 			

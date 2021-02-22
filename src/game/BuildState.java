@@ -13,6 +13,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import main.Main;
 import teams.Team;
@@ -28,10 +30,6 @@ public class BuildState extends GameState{
 	public int seconds = 0;
 	public static final int BuildTimeSec = (int)(5*60);
 	
-	public static String currentTime() {
-		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-		return "["+timeStamp.getHours()+"-"+timeStamp.getMinutes()+"-"+timeStamp.getSeconds()+"]";
-	}
 	
 	static void givePlayerRandomBuildItem(Player p) {
 		ItemStack toAdd = new ItemStack(TeamManager.getPlayerTeam(p).getButtonMaterial(), new Random().nextInt(5)+1);
@@ -41,7 +39,7 @@ public class BuildState extends GameState{
 		if(choice==0)
 			toAdd = new ItemStack(Material.LADDER, 1);
 		if(choice==1)
-			toAdd = new ItemStack(Material.LADDER, 1);
+			toAdd = new ItemStack(Material.DIRT, 1);
 		if(choice==2)
 			toAdd = new ItemStack(Material.JUNGLE_WOOD, new Random().nextInt(2)+1);
 		if(choice==3)
@@ -89,9 +87,6 @@ public class BuildState extends GameState{
 				seconds++;
 				//Bukkit.broadcastMessage("tick! ["+seconds+"]");
 				
-				for(Player cp : Bukkit.getOnlinePlayers())
-					if(TeamManager.getPlayerTeam(cp)!=null)
-						givePlayerRandomBuildItem(cp);
 				
 				switch (seconds) {
 				case 1:
@@ -109,7 +104,20 @@ public class BuildState extends GameState{
 				
 				if(seconds>BuildTimeSec) {
 					GameStateManager.setGameState(new FightState());
+					return;
 				}
+				
+				for(Player cp : Bukkit.getOnlinePlayers())
+					if(TeamManager.getPlayerTeam(cp)!=null) {
+						givePlayerRandomBuildItem(cp);
+						
+						cp.setLevel(BuildTimeSec-seconds);
+						
+//						if((BuildTimeSec-seconds)>0)
+//							cp.setLevel(BuildTimeSec-seconds);
+//						else
+//							cp.setLevel(0);
+					}
 				
 			}
 		}, 1*20, 1*20);
@@ -130,6 +138,7 @@ public class BuildState extends GameState{
 		}
 		System.out.println("Setting up World!");
 		Bukkit.getWorld(worldName).getBlockAt(0, 10, 0).setType(Material.COBWEB);
+		Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", "1");
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
 			cp.teleport(new Location(Bukkit.getWorld(worldName), 0, 100, 0));
@@ -152,6 +161,7 @@ public class BuildState extends GameState{
 				cp.setGameMode(GameMode.SURVIVAL);
 				cp.teleport(spawn);
 				cp.getInventory().clear();
+				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));
 			}
 				
 		}
@@ -164,8 +174,8 @@ public class BuildState extends GameState{
 	@Override
 	public void stop() {
 		Bukkit.getScheduler().cancelTask(SchedulerID);
-		for(Player cp : Bukkit.getOnlinePlayers())
-			cp.getInventory().clear();
+//		for(Player cp : Bukkit.getOnlinePlayers())
+//			cp.getInventory().clear();
 		
 	}
 
