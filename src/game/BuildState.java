@@ -26,7 +26,7 @@ public class BuildState extends GameState{
 	
 	static int SchedulerID;
 	static int seconds = 0;
-	static final int BuildTimeSec = 1*60+2;
+	static final int BuildTimeSec = (int)(5*60);
 	
 	public static String currentTime() {
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
@@ -137,7 +137,7 @@ public class BuildState extends GameState{
 		
 		int zDistance = BaseDistance;
 		for(Team ct : Team.values()) {
-			Location spawn = new Location(Bukkit.getWorld(worldName), 0, 11, zDistance);
+			Location spawn = new Location(Bukkit.getWorld(worldName), 0, 15, zDistance);
 			ct.setRespawnPoint(spawn);
 			zDistance=-zDistance;
 			//Base creation
@@ -164,6 +164,8 @@ public class BuildState extends GameState{
 	@Override
 	public void stop() {
 		Bukkit.getScheduler().cancelTask(SchedulerID);
+		for(Player cp : Bukkit.getOnlinePlayers())
+			cp.getInventory().clear();
 		
 	}
 

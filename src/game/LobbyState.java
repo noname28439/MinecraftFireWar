@@ -2,6 +2,7 @@ package game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -43,6 +44,7 @@ public class LobbyState extends GameState{
 		for(Player cp : Bukkit.getOnlinePlayers()) {
 			setInventory(cp);
 			cp.teleport(lobbyLocation);
+			cp.setGameMode(GameMode.SURVIVAL);
 		}
 			
 			
