@@ -32,7 +32,8 @@ public class FightState extends GameState{
 		cp.getInventory().addItem(bow);
 		cp.getInventory().addItem(new ItemStack(Material.ARROW, 1));
 		cp.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 10));
-		cp.getInventory().addItem(new ItemStack(Material.GRAY_WOOL, 15));
+		cp.getInventory().addItem(new ItemStack(Material.GRAY_WOOL, 32));
+		cp.getInventory().addItem(new ItemStack(Material.FEATHER, 1));
 		
 		cp.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 99999, 2));
 	}

@@ -13,6 +13,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import main.Main;
 import teams.Team;
@@ -28,10 +30,6 @@ public class BuildState extends GameState{
 	public int seconds = 0;
 	public static final int BuildTimeSec = (int)(5*60);
 	
-	public static String currentTime() {
-		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-		return "["+timeStamp.getHours()+"-"+timeStamp.getMinutes()+"-"+timeStamp.getSeconds()+"]";
-	}
 	
 	static void givePlayerRandomBuildItem(Player p) {
 		ItemStack toAdd = new ItemStack(TeamManager.getPlayerTeam(p).getButtonMaterial(), new Random().nextInt(5)+1);
@@ -41,7 +39,7 @@ public class BuildState extends GameState{
 		if(choice==0)
 			toAdd = new ItemStack(Material.LADDER, 1);
 		if(choice==1)
-			toAdd = new ItemStack(Material.LADDER, 1);
+			toAdd = new ItemStack(Material.DIRT, 1);
 		if(choice==2)
 			toAdd = new ItemStack(Material.JUNGLE_WOOD, new Random().nextInt(2)+1);
 		if(choice==3)
@@ -163,6 +161,7 @@ public class BuildState extends GameState{
 				cp.setGameMode(GameMode.SURVIVAL);
 				cp.teleport(spawn);
 				cp.getInventory().clear();
+				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));
 			}
 				
 		}
