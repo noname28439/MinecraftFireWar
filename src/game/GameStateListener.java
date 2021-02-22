@@ -4,9 +4,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
@@ -39,6 +41,24 @@ public class GameStateListener implements Listener {
 		Player p = e.getPlayer();
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
+			e.setCancelled(true);
+		
+	}
+	
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent e) {
+		Player p = e.getPlayer();
+		
+		if(TeamManager.getPlayerTeam(p)!=null)
+			e.setRespawnLocation(TeamManager.getPlayerTeam(p).getRespawnPoint());
+		
+	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent e) {
+		Player p = e.getPlayer();
+		
+		if(e.getBlock().getLocation().getBlockZ()<10&&e.getBlock().getLocation().getBlockZ()>-10)
 			e.setCancelled(true);
 		
 	}
