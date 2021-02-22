@@ -12,9 +12,13 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 
+import teams.Team;
+
 public class BuildState extends GameState{
 
 	static World buildStateWorld;
+	
+	static int BaseDistance = 30;
 	
 	public static String currentTime() {
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
@@ -40,6 +44,27 @@ public class BuildState extends GameState{
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
 			cp.teleport(new Location(Bukkit.getWorld(worldName), 0, 100, 0));
+		
+		
+		int zDistance = BaseDistance;
+		for(Team ct : Team.values()) {
+			Location spawn = new Location(Bukkit.getWorld(worldName), 0, 11, zDistance);
+			zDistance=-zDistance;
+			//Base creation
+			World toSet = Bukkit.getWorld(worldName);
+			for(int x = 0; x<3;x++)
+				for(int z = 0; z<3; z++) {
+					toSet.getBlockAt(new Location(Bukkit.getWorld(worldName), 0, 10, zDistance).add(x, 0, z).add(-1, 0, -1)).setType(Material.WHITE_WOOL);
+				}
+					
+			
+			for(Player cp: ct.getTeamPlayers()) {
+				cp.teleport(spawn);
+				cp.setBedSpawnLocation(spawn);
+			}
+				
+		}
+			
 		
 		
 		

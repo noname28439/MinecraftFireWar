@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import main.Main;
 import net.md_5.bungee.api.ChatColor;
+import teams.TeamManager;
 
 public class LobbyState extends GameState{
 	
@@ -45,7 +46,11 @@ public class LobbyState extends GameState{
 
 	@Override
 	public void stop() {
+		for(Player cp : Bukkit.getOnlinePlayers())
+			if(TeamManager.getPlayerTeam(cp)==null)
+				TeamManager.sortInPlayer(cp);
 		
+		TeamManager.balanceTeams();
 		
 	}
 
