@@ -2,7 +2,9 @@ package teams;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -15,6 +17,7 @@ public enum Team {
 	private String teamName;
 	private ChatColor chatColor;
 	private Material button;
+	private Location respawnPoint;
 	
 	public boolean hasBed = true;
 	
@@ -26,6 +29,7 @@ public enum Team {
 		this.teamName = teamName;
 		this.button = button;
 		this.chatColor = chatColor;
+		this.respawnPoint = new Location(Bukkit.getWorld("world"), 0, 100, 0);
 		
 		teamPlayers=new ArrayList<>();
 	}
@@ -44,5 +48,15 @@ public enum Team {
 	public Material getButtonMaterial() {
 		return button;
 	}
+
+	public Location getRespawnPoint() {
+		return respawnPoint;
+	}
+
+	public void setRespawnPoint(Location respawnPoint) {
+		this.respawnPoint = respawnPoint;
+	}
+	
+	
 	
 }

@@ -18,8 +18,11 @@ public class Main extends JavaPlugin{
 	
 	public static String PREFIX = "§7[§cFireFight§7]";
 	
+	public static JavaPlugin plugin;
+	
 	@Override
 	public void onEnable() {
+		plugin = this;
 		GameStateManager.setGameState(new LobbyState());
 		
 		//Reigster Commands
