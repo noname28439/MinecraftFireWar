@@ -24,9 +24,9 @@ public class BuildState extends GameState{
 	
 	static final int BaseDistance = 20;
 	
-	static int SchedulerID;
-	static int seconds = 0;
-	static final int BuildTimeSec = (int)(5*60);
+	public int SchedulerID;
+	public int seconds = 0;
+	public static final int BuildTimeSec = (int)(5*60);
 	
 	public static String currentTime() {
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
@@ -170,6 +170,7 @@ public class BuildState extends GameState{
 	}
 
 	@Override
+	public
 	int getID() {return GameStateManager.BuildState;}
 	
 }
