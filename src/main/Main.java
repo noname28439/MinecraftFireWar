@@ -27,6 +27,7 @@ public class Main extends JavaPlugin{
 		
 		//Reigster Commands
 		getCommand("test").setExecutor(new TestCMD());
+		getCommand("spectate").setExecutor(new SpectateCMD());
 		
 		
 		//Reigster Listeners

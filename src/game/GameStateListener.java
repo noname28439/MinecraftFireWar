@@ -197,6 +197,8 @@ public class GameStateListener implements Listener {
 		}else {
 			//Game already started
 			p.sendMessage(ChatColor.RED+"Das Spiel hat schon angefangen!");
+			p.setGameMode(GameMode.SPECTATOR);
+			p.sendMessage(ChatColor.GREEN+"Du kannst dich mit \"/spectate {spielername}\" zu einem anderen Spieler Teleportieren");
 		}
 		
 		
