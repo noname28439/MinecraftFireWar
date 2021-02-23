@@ -4,8 +4,13 @@ import java.util.Random;
 
 import javax.swing.border.EtchedBorder;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -21,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_16_R3.IHopper;
@@ -160,11 +166,30 @@ public class GameStateListener implements Listener {
 	public void onProjectileHit(ProjectileHitEvent e) {
 		Entity projectile = e.getEntity();
 		
-		
+		World world = e.getEntity().getWorld();
+		Location loc = projectile.getLocation();
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
-			if(projectile.getType().equals(EntityType.TRIDENT))
+			if(projectile.getType().equals(EntityType.TRIDENT)) {
 				e.getEntity().getLocation().getWorld().createExplosion(e.getEntity().getLocation(), 3, true);
+				
+				for(Player cp : Bukkit.getOnlinePlayers())
+					cp.playSound(projectile.getLocation(), Sound.BLOCK_ANVIL_LAND, 15, 1);
+				
+					double radius = 0.1;
+					  int n = 8;
+					  for (int i = 0; i < 6; i++) {
+					    double angle = 2 * Math.PI * i / n;
+					    Location base =
+					        loc.clone().add(new Vector(radius * Math.cos(angle), 0, radius * Math.sin(angle)));
+					    for (int j = 0; j <= 8; j++) {
+					      world.playEffect(base, Effect.SMOKE, j);
+					      world.playEffect(base, Effect.MOBSPAWNER_FLAMES, j);
+					    }
+					  }
+				
+			}
+				
 			
 			if(projectile.getType().equals(EntityType.EGG))
 				if(e.getHitBlock()!=null)
@@ -174,8 +199,8 @@ public class GameStateListener implements Listener {
 				if(e.getHitBlock()!=null)
 					if(new Random().nextInt(5)==0)
 						e.getHitBlock().setType(Material.FIRE);
-					else
-						e.getHitBlock().setType(Material.AIR);
+					else if(new Random().nextInt(2)==0)
+							e.getHitBlock().setType(Material.AIR);
 			}
 			e.getEntity().remove();
 			
