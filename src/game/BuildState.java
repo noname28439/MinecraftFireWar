@@ -28,7 +28,7 @@ public class BuildState extends GameState{
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(5*60);
+	public static final int BuildTimeSec = (int)(10*60);
 	
 	
 	static void givePlayerRandomBuildItem(Player p) {
@@ -39,7 +39,7 @@ public class BuildState extends GameState{
 		if(choice==0)
 			toAdd = new ItemStack(Material.LADDER, 1);
 		if(choice==1)
-			toAdd = new ItemStack(Material.DIRT, 1);
+			toAdd = new ItemStack(Material.DIRT, new Random().nextInt(2)+1);
 		if(choice==2)
 			toAdd = new ItemStack(Material.JUNGLE_WOOD, new Random().nextInt(2)+1);
 		if(choice==3)

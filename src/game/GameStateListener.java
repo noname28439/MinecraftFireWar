@@ -56,14 +56,21 @@ public class GameStateListener implements Listener {
 						
 						int choice = new Random().nextInt(4);
 						
+						ItemStack result = new ItemStack(Material.CAKE, 1);
+						
 						if(choice==0)
-							e.getPlayer().getInventory().addItem(new ItemStack(Material.TRIDENT, 1));
+							result = new ItemStack(Material.TRIDENT, 1);
 						if(choice==1)
-							e.getPlayer().getInventory().addItem(new ItemStack(Material.EGG, 1));
+							if(new Random().nextInt(5)!=0)
+								result = new ItemStack(Material.EGG, 1);
+							else
+								result = new ItemStack(Material.TNT, 1);
 						if(choice==2)
-							e.getPlayer().getInventory().addItem(new ItemStack(Material.FEATHER, 1));
+							result = new ItemStack(Material.FEATHER, 1);
 						if(choice==3)
-							e.getPlayer().getInventory().addItem(new ItemStack(Material.FEATHER, 1));
+							result = new ItemStack(Material.FEATHER, 1);
+						
+						p.getWorld().dropItem(e.getClickedBlock().getLocation().add(0, 1, 0), result);
 						
 						FightState.blockDelays.put(e.getClickedBlock(), 10);
 					}
