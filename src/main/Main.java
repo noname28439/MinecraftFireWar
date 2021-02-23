@@ -6,6 +6,7 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import commads.SpectateCMD;
 import commads.TestCMD;
 import game.GameStateListener;
 import game.GameStateManager;

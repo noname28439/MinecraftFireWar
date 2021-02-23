@@ -1,4 +1,4 @@
-package main;
+package commads;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
