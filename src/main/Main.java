@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import commads.SpectateCMD;
 import commads.TestCMD;
+import commads.TimCMD;
 import game.GameStateListener;
 import game.GameStateManager;
 import game.LobbyState;
@@ -29,7 +30,7 @@ public class Main extends JavaPlugin{
 		//Reigster Commands
 		getCommand("test").setExecutor(new TestCMD());
 		getCommand("spectate").setExecutor(new SpectateCMD());
-		
+		getCommand ("geheimbefehl").setExecutor(new TimCMD());
 		
 		//Reigster Listeners
 		PluginManager pm = Bukkit.getPluginManager();
