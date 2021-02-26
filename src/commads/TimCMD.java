@@ -12,7 +12,7 @@ public class TimCMD implements CommandExecutor {
 		
 		if(sender instanceof Player) {
 			Player p = (Player)sender;
-			if(args.length==1) {
+			if(args.length==0) {
 				
 				p.sendMessage("Na du kleiner! Du hast den Geheimbefehl entdeckt! Du wirst nie wissen was er bewirkt...");
 				
