@@ -145,6 +145,7 @@ public class BuildState extends GameState{
 		System.out.println("Setting up World!");
 		Bukkit.getWorld(worldName).getBlockAt(0, 10, 0).setType(Material.COBWEB);
 		Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", "1");
+		Bukkit.getWorld(worldName).getWorldBorder().setSize(100.0);
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
 			cp.teleport(new Location(Bukkit.getWorld(worldName), 0, 100, 0));
