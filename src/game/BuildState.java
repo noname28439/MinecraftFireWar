@@ -1,6 +1,7 @@
 package game;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +30,11 @@ public class BuildState extends GameState{
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(10*60);
+	public static final int BuildTimeSec = (int)(15*60);
+	
+	
+	public static final Material toSelfRepairBlockMaterial = Material.PINK_WOOL;
+	public static ArrayList<Block> toSelfRepairBlocks = new ArrayList<>();
 	
 	
 	static void givePlayerRandomBuildItem(Player p) {

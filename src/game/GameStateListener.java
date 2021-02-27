@@ -18,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -145,9 +147,15 @@ public class GameStateListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Player p = e.getPlayer();
 		
-		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState)
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
 			if(e.getBlock().getLocation().getBlockZ()<10&&e.getBlock().getLocation().getBlockZ()>-10)
 				e.setCancelled(true);
+		}
+		
+		if(GameStateManager.getCurrentGameState().getID()!=GameStateManager.LobbyState)
+			if(e.getBlock().getType()==BuildState.toSelfRepairBlockMaterial) {
+				BuildState.toSelfRepairBlocks.add(e.getBlock());
+			}
 		
 	}
 	
@@ -156,11 +164,12 @@ public class GameStateListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		
-		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState)
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			if(e.getBlock().getType()==Material.TNT)
 				e.getBlock().getLocation().getWorld().createExplosion(e.getBlock().getLocation(), 2, false);
-		
+		}
 	}
+	
 	
 	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e) {
@@ -187,7 +196,6 @@ public class GameStateListener implements Listener {
 					      world.playEffect(base, Effect.MOBSPAWNER_FLAMES, j);
 					    }
 					  }
-				
 			}
 				
 			
