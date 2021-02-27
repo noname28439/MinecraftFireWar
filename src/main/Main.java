@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import commads.SpectateCMD;
 import commads.TestCMD;
 import commads.TimCMD;
+import commads.FlightCMD;
 import game.GameStateListener;
 import game.GameStateManager;
 import game.LobbyState;
@@ -18,7 +19,7 @@ public class Main extends JavaPlugin{
 
 	public static World mainWorld = Bukkit.getWorld("world");
 	
-	public static String PREFIX = "§7[§cFireFight§7]";
+	public static String PREFIX = "§7[§cFireFight§7] ";
 	
 	public static JavaPlugin plugin;
 	
@@ -27,10 +28,12 @@ public class Main extends JavaPlugin{
 		plugin = this;
 		GameStateManager.setGameState(new LobbyState());
 		
+		
 		//Reigster Commands
 		getCommand("test").setExecutor(new TestCMD());
 		getCommand("spectate").setExecutor(new SpectateCMD());
-		getCommand ("geheimbefehl").setExecutor(new TimCMD());
+		getCommand("geheimbefehl").setExecutor(new TimCMD());
+		getCommand("fly").setExecutor(new FlightCMD());
 		
 		//Reigster Listeners
 		PluginManager pm = Bukkit.getPluginManager();
