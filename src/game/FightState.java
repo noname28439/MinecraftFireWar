@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -71,6 +72,31 @@ public class FightState extends GameState{
 				
 			}
 		}, 1*20, 1*20);
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				ArrayList<Block> toReplaceBlocks = new ArrayList<>();
+				for(Block cb : BuildState.toSelfRepairBlocks) {
+					boolean hasNeighbours = false;
+					for(int x = 0; x<3;x++)
+						for(int y = 0; y<3;y++)
+							for(int z = 0; z<3;z++) {
+								Location lookupLocation = cb.getLocation().add(x-1, y-1, z-1);
+								if(cb.getWorld().getBlockAt(lookupLocation).getType()!=Material.AIR)
+									hasNeighbours = true;
+							}
+					
+					if(hasNeighbours)
+						toReplaceBlocks.add(cb);
+				}
+				
+				for(Block cb : toReplaceBlocks)
+					cb.setType(BuildState.toSelfRepairBlockMaterial);
+				
+			}
+		}, 1*20, 5*20);
 		
 		
 		for(Team ct : Team.values()) {
