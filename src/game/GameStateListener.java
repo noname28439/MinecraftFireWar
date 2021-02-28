@@ -87,16 +87,16 @@ public class GameStateListener implements Listener {
 						
 						p.getWorld().dropItem(e.getClickedBlock().getLocation().add(0, 1, 0), result);
 						
-						FightState.blockDelays.put(e.getClickedBlock(), 7);
+						FightState.blockDelays.put(e.getClickedBlock(), 15);
 					}
 						
 				}
+			if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
 			if(e.getClickedBlock().getType()==Material.BOOKSHELF) {
 				if(!FightState.blockDelays.containsKey(e.getClickedBlock())) {
 					FightState.dropBuildItem(e.getClickedBlock().getLocation().add(0, 1, 0));
-					FightState.blockDelays.put(e.getClickedBlock(), 10);
+					FightState.blockDelays.put(e.getClickedBlock(), 5);
 				}
-					
 			}
 			
 			if(e.getAction()==Action.RIGHT_CLICK_BLOCK||e.getAction()==Action.RIGHT_CLICK_AIR) {
@@ -110,7 +110,17 @@ public class GameStateListener implements Listener {
 							}
 					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
 				}
+				if(e.getPlayer().getItemInHand().getType()==Material.BLAZE_ROD) {
+					int size = 3;
+					for(int x = 0; x<3;x++)
+						for(int z = 0; z<3; z++) {
+							p.getWorld().getBlockAt(p.getLocation().add(x, 0, z).add(-1, -3, -1)).setType(Material.PINK_WOOL);
+						}
+					
+					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+				}
 			}
+			
 		}
 			
 	}

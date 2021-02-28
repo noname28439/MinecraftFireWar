@@ -76,6 +76,10 @@ public class FightState extends GameState{
 			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
 		if(choice==13)
 			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		if(choice==13)
+			result = new ItemStack(Material.CHICKEN_SPAWN_EGG, new Random().nextInt(2)+1);
+		if(choice==13)
+			result = new ItemStack(Material.WHEAT_SEEDS, new Random().nextInt(9)+1);
 		
 		dropLoc.getWorld().dropItem(dropLoc, result);
 		
