@@ -68,7 +68,10 @@ public class GameStateListener implements Listener {
 						ItemStack result = new ItemStack(Material.CAKE, 1);
 						
 						if(choice==0)
-							result = new ItemStack(Material.TRIDENT, 1);
+							if(new Random().nextInt(2)!=0)
+								result = new ItemStack(Material.TRIDENT, 1);
+							else
+								result = new ItemStack(Material.SNOWBALL, 1);
 						if(choice==1)
 							if(new Random().nextInt(5)!=0)
 								result = new ItemStack(Material.EGG, 1);
@@ -225,6 +228,8 @@ public class GameStateListener implements Listener {
 					  }
 			}
 				
+			if(projectile.getType().equals(EntityType.SNOWBALL))
+				projectile.getWorld().strikeLightning(projectile.getLocation());
 			
 			if(projectile.getType().equals(EntityType.EGG))
 				if(e.getHitBlock()!=null)

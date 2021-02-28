@@ -31,6 +31,7 @@ public class FightState extends GameState{
 		ItemStack bow = new ItemStack(Material.BOW, 1);
 		ItemMeta bowMeta = bow.getItemMeta();
 		bowMeta.addEnchant(Enchantment.ARROW_INFINITE,1, true);
+		bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK,3, true);
 		bow.setItemMeta(bowMeta);
 		cp.getInventory().addItem(bow);
 		cp.getInventory().addItem(new ItemStack(Material.ARROW, 1));
