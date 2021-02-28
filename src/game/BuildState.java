@@ -32,6 +32,8 @@ public class BuildState extends GameState{
 	public int seconds = 0;
 	public static final int BuildTimeSec = (int)(15*60);
 	
+	public static final boolean flightAllowed = true;
+	
 	
 	public static final Material toSelfRepairBlockMaterial = Material.PINK_WOOL;
 	public static ArrayList<Block> toSelfRepairBlocks = new ArrayList<>();
@@ -169,8 +171,11 @@ public class BuildState extends GameState{
 				cp.teleport(spawn);
 				cp.getInventory().clear();
 				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));
-			}
+				if(flightAllowed)
+					cp.setAllowFlight(true);
 				
+			}
+		
 		}
 			
 		

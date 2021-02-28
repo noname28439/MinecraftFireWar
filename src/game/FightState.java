@@ -104,6 +104,7 @@ public class FightState extends GameState{
 			
 			for(Player cp: ct.getTeamPlayers()) {
 				setupPlayer(cp);
+				cp.setAllowFlight(false);
 			}
 				
 		}

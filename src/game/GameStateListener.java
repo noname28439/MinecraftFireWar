@@ -26,6 +26,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -167,6 +168,22 @@ public class GameStateListener implements Listener {
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			if(e.getBlock().getType()==Material.TNT)
 				e.getBlock().getLocation().getWorld().createExplosion(e.getBlock().getLocation(), 2, false);
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerMove(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		
+		int flyBorderThickness = 5;
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+			if(p.getLocation().getBlockZ()<flyBorderThickness&&p.getLocation().getBlockZ()>-flyBorderThickness) {
+				if(p.getLocation().getBlockZ()<0)
+					p.setVelocity(new Vector(0, 0, -1));
+				if(p.getLocation().getBlockZ()>0)
+					p.setVelocity(new Vector(0, 0, 1));
+			}
+			
 		}
 	}
 	
