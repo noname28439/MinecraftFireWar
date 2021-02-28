@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -24,6 +25,7 @@ public class FightState extends GameState{
 	int SchedulerID;
 	public static HashMap<Block, Integer> blockDelays = new HashMap<>();
 	public static HashMap<String, Integer> playerLives = new HashMap<>();
+	public static final int playerHP = 5;
 	
 	public static void setupPlayer(Player cp) {
 		ItemStack bow = new ItemStack(Material.BOW, 1);
@@ -37,6 +39,45 @@ public class FightState extends GameState{
 		cp.getInventory().addItem(new ItemStack(Material.FEATHER, 1));
 		
 		cp.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 99999, 2));
+	}
+	
+	public static void dropBuildItem(Location dropLoc) {
+
+		int choice = new Random().nextInt(6);
+		
+		ItemStack result = new ItemStack(Material.LAVA_BUCKET, 1);
+		
+		if(choice==0)
+			result = new ItemStack(Material.SLIME_BALL, new Random().nextInt(3)+1);
+		if(choice==1)
+			result = new ItemStack(Material.REDSTONE, new Random().nextInt(5)+1);
+		if(choice==2)
+			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		if(choice==3)
+			result = new ItemStack(Material.DARK_OAK_BUTTON, new Random().nextInt(4)+1);
+		if(choice==4)
+			result = new ItemStack(Material.CRIMSON_DOOR, new Random().nextInt(2)+1);
+		if(choice==5)
+			result = new ItemStack(Material.WARPED_PRESSURE_PLATE, new Random().nextInt(2)+1);
+		if(choice==6)
+			result = new ItemStack(Material.LEVER, new Random().nextInt(2)+1);
+		if(choice==7)
+			result = new ItemStack(Material.REPEATER, new Random().nextInt(2)+1);
+		if(choice==8)
+			result = new ItemStack(Material.OBSERVER, new Random().nextInt(2)+1);
+		if(choice==9)
+			result = new ItemStack(Material.DISPENSER, new Random().nextInt(2)+1);
+		if(choice==10)
+			result = new ItemStack(Material.SCAFFOLDING, new Random().nextInt(6)+1);
+		if(choice==11)
+			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		if(choice==12)
+			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		if(choice==13)
+			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		
+		dropLoc.getWorld().dropItem(dropLoc, result);
+		
 	}
 	
 	@Override

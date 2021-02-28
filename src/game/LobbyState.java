@@ -47,6 +47,7 @@ public class LobbyState extends GameState{
 			cp.setGameMode(GameMode.SURVIVAL);
 			cp.getActivePotionEffects().clear();
 			cp.setAllowFlight(false);
+			cp.setLevel(0);
 		}
 			
 			
