@@ -75,16 +75,26 @@ public class GameStateListener implements Listener {
 							else
 								result = new ItemStack(Material.TNT, 1);
 						if(choice==2)
-							result = new ItemStack(Material.FEATHER, 1);
+							if(new Random().nextInt(2)!=0)
+								result = new ItemStack(Material.FEATHER, 1);
+							else
+								result = new ItemStack(Material.BOOKSHELF, 1);
 						if(choice==3)
 							result = new ItemStack(Material.FEATHER, 1);
 						
 						p.getWorld().dropItem(e.getClickedBlock().getLocation().add(0, 1, 0), result);
 						
-						FightState.blockDelays.put(e.getClickedBlock(), 10);
+						FightState.blockDelays.put(e.getClickedBlock(), 7);
 					}
 						
 				}
+			if(e.getClickedBlock().getType()==Material.BOOKSHELF) {
+				if(!FightState.blockDelays.containsKey(e.getClickedBlock())) {
+					FightState.dropBuildItem(e.getClickedBlock().getLocation().add(0, 1, 0));
+					FightState.blockDelays.put(e.getClickedBlock(), 10);
+				}
+					
+			}
 			
 			if(e.getAction()==Action.RIGHT_CLICK_BLOCK||e.getAction()==Action.RIGHT_CLICK_AIR) {
 				if(e.getPlayer().getItemInHand().getType()==Material.FEATHER) {
@@ -128,7 +138,7 @@ public class GameStateListener implements Listener {
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			FightState.setupPlayer(p);
 				if(!FightState.playerLives.containsKey(p.getName())){
-					FightState.playerLives.put(p.getName(), 3);
+					FightState.playerLives.put(p.getName(), FightState.playerHP);
 				}
 				FightState.playerLives.put(p.getName(), FightState.playerLives.get(p.getName())-1);
 				int playerHP = FightState.playerLives.get(p.getName());
