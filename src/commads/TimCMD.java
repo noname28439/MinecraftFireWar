@@ -22,7 +22,7 @@ public class TimCMD implements CommandExecutor {
 			if(args.length==0) {
 				
 				
-				p.getInventory().clear();
+				
 				
 				p.sendMessage("Na du kleiner! Du hast den Geheimbefehl entdeckt! Du wirst nie wissen was er bewirkt...");
 				
