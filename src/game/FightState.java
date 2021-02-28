@@ -31,6 +31,7 @@ public class FightState extends GameState{
 		ItemStack bow = new ItemStack(Material.BOW, 1);
 		ItemMeta bowMeta = bow.getItemMeta();
 		bowMeta.addEnchant(Enchantment.ARROW_INFINITE,1, true);
+		bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK,3, true);
 		bow.setItemMeta(bowMeta);
 		cp.getInventory().addItem(bow);
 		cp.getInventory().addItem(new ItemStack(Material.ARROW, 1));
@@ -75,6 +76,10 @@ public class FightState extends GameState{
 			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
 		if(choice==13)
 			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
+		if(choice==13)
+			result = new ItemStack(Material.CHICKEN_SPAWN_EGG, new Random().nextInt(2)+1);
+		if(choice==13)
+			result = new ItemStack(Material.WHEAT_SEEDS, new Random().nextInt(9)+1);
 		
 		dropLoc.getWorld().dropItem(dropLoc, result);
 		

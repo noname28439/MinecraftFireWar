@@ -30,7 +30,7 @@ public class BuildState extends GameState{
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(15*60);
+	public static final int BuildTimeSec = (int)(5*60);
 	
 	public static final boolean flightAllowed = true;
 	
