@@ -159,7 +159,7 @@ public class GameStateListener implements Listener {
 				if(playerHP<=0)
 					p.setGameMode(GameMode.SPECTATOR);
 				else {
-					p.getWorld().getBlockAt(e.getRespawnLocation().add(0, -5, 0)).setType(Material.PINK_WOOL);
+					p.getWorld().getBlockAt(e.getRespawnLocation().clone().add(0, -5, 0)).setType(Material.PINK_WOOL);
 				}
 				
 			}

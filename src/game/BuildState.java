@@ -30,7 +30,7 @@ public class BuildState extends GameState{
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(5*60);
+	public static final int BuildTimeSec = (int)(10*60);
 	
 	public static final boolean flightAllowed = true;
 	
@@ -147,6 +147,7 @@ public class BuildState extends GameState{
 		System.out.println("Setting up World!");
 		Bukkit.getWorld(worldName).getBlockAt(0, 10, 0).setType(Material.COBWEB);
 		Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", "1");
+		Bukkit.getWorld(worldName).setGameRuleValue("fallDamage", "false");
 		Bukkit.getWorld(worldName).getWorldBorder().setSize(100.0);
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
