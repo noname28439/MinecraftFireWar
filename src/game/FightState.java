@@ -44,7 +44,7 @@ public class FightState extends GameState{
 	
 	public static void dropBuildItem(Location dropLoc) {
 
-		int choice = new Random().nextInt(15);
+		int choice = new Random().nextInt(16);
 		
 		ItemStack result = new ItemStack(Material.LAVA_BUCKET, 1);
 		
@@ -82,6 +82,8 @@ public class FightState extends GameState{
 			result = new ItemStack(Material.WHEAT_SEEDS, new Random().nextInt(9)+1);
 		if(choice==14)
 			result = new ItemStack(Material.ENDER_PEARL, new Random().nextInt(1));
+		if(choice==15)
+			result = new ItemStack(Material.BLAZE_ROD, 1);
 		
 		dropLoc.getWorld().dropItem(dropLoc, result);
 		
@@ -94,7 +96,12 @@ public class FightState extends GameState{
 			
 			@Override
 			public void run() {
+				
+				BuildState.buildStateWorld.setGameRuleValue("doFireTick", "true");
+				
 				for(Block key : blockDelays.keySet()) {
+					if(!blockDelays.containsKey(key))
+						break;
 					blockDelays.put(key, blockDelays.get(key)-1);
 					if(blockDelays.get(key)<0)
 						blockDelays.remove(key);

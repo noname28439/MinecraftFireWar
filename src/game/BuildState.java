@@ -153,6 +153,8 @@ public class BuildState extends GameState{
 		Bukkit.getWorld(worldName).getBlockAt(0, 10, 0).setType(Material.COBWEB);
 		Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", "1");
 		Bukkit.getWorld(worldName).setGameRuleValue("fallDamage", "false");
+		Bukkit.getWorld(worldName).setGameRuleValue("doFireTick", "false");
+		Bukkit.getWorld(worldName).setGameRuleValue("doWeatherCycle", "false");
 		Bukkit.getWorld(worldName).getWorldBorder().setSize(100.0);
 		System.out.println("Teleporting Players...");
 		for(Player cp : Bukkit.getOnlinePlayers())
