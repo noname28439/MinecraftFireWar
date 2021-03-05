@@ -31,6 +31,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import main.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_16_R3.IHopper;
 import teams.Team;
