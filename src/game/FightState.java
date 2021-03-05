@@ -44,7 +44,7 @@ public class FightState extends GameState{
 	
 	public static void dropBuildItem(Location dropLoc) {
 
-		int choice = new Random().nextInt(6);
+		int choice = new Random().nextInt(15);
 		
 		ItemStack result = new ItemStack(Material.LAVA_BUCKET, 1);
 		
@@ -80,6 +80,8 @@ public class FightState extends GameState{
 			result = new ItemStack(Material.CHICKEN_SPAWN_EGG, new Random().nextInt(2)+1);
 		if(choice==13)
 			result = new ItemStack(Material.WHEAT_SEEDS, new Random().nextInt(9)+1);
+		if(choice==14)
+			result = new ItemStack(Material.ENDER_PEARL, new Random().nextInt(1));
 		
 		dropLoc.getWorld().dropItem(dropLoc, result);
 		
