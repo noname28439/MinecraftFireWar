@@ -33,6 +33,7 @@ import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_16_R3.IHopper;
+import teams.Team;
 import teams.TeamManager;
 
 public class GameStateListener implements Listener {
@@ -89,7 +90,7 @@ public class GameStateListener implements Listener {
 						
 						FightState.blockDelays.put(e.getClickedBlock(), 15);
 					}
-						
+				
 				}
 			if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
 			if(e.getClickedBlock().getType()==Material.BOOKSHELF) {
@@ -98,6 +99,14 @@ public class GameStateListener implements Listener {
 					FightState.blockDelays.put(e.getClickedBlock(), 5);
 				}
 			}
+			if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
+				if(e.getClickedBlock().getType()==Material.TARGET) {
+					Team team = TeamManager.getPlayerTeam(p);
+					Location toSet = e.getClickedBlock().getLocation().clone().add(0, 1, 0);
+					team.setRespawnPoint(toSet);
+					for(Player cp : team.getTeamPlayers())
+						cp.sendMessage("Team RespawnPoint set to ["+toSet.getX()+"|"+toSet.getY()+"|"+toSet.getZ()+"]");
+				}
 			
 			if(e.getAction()==Action.RIGHT_CLICK_BLOCK||e.getAction()==Action.RIGHT_CLICK_AIR) {
 				if(e.getPlayer().getItemInHand().getType()==Material.FEATHER) {

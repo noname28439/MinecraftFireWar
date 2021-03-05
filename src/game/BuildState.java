@@ -28,6 +28,8 @@ public class BuildState extends GameState{
 	
 	static final int BaseDistance = 20;
 	
+	public static final int maxBuildHeight = 60;
+	
 	public int SchedulerID;
 	public int seconds = 0;
 	public static final int BuildTimeSec = (int)(10*60);
@@ -65,6 +67,11 @@ public class BuildState extends GameState{
 		if(choice==9)
 			if(new Random().nextInt(5)==0)
 				toAdd = new ItemStack(Material.TNT, 1);
+		if(choice==10)
+			if(new Random().nextInt(8)==0)
+				toAdd = new ItemStack(Material.TARGET, 1);
+			else
+				toAdd = new ItemStack(toSelfRepairBlockMaterial, new Random().nextInt(2));
 		
 		if(choice==15)
 			toAdd = new ItemStack(Material.SAND, 1);
@@ -76,9 +83,7 @@ public class BuildState extends GameState{
 			if(new Random().nextInt(2)==0)
 				toAdd = new ItemStack(Material.ANVIL, 1);
 		
-		if(choice==9)
-			if(new Random().nextInt(5)==0)
-				toAdd = new ItemStack(Material.TNT, 1);
+		
 		
 		
 		p.getInventory().addItem(toAdd);
@@ -172,6 +177,7 @@ public class BuildState extends GameState{
 				cp.teleport(spawn);
 				cp.getInventory().clear();
 				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));
+				cp.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, BuildTimeSec*20, 5));
 				if(flightAllowed)
 					cp.setAllowFlight(true);
 				
