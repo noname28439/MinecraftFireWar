@@ -94,6 +94,9 @@ public class FightState extends GameState{
 			
 			@Override
 			public void run() {
+				
+				BuildState.buildStateWorld.setGameRuleValue("doFireTick", "true");
+				
 				for(Block key : blockDelays.keySet()) {
 					blockDelays.put(key, blockDelays.get(key)-1);
 					if(blockDelays.get(key)<0)
