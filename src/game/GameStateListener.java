@@ -181,6 +181,14 @@ public class GameStateListener implements Listener {
 				BuildState.toSelfRepairBlocks.add(e.getBlock());
 			}
 		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState||GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState)
+			if(e.getBlock().getLocation().getBlockY()>BuildState.maxBuildHeight) {
+				e.setCancelled(true);
+				e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 1);
+				p.sendMessage("Hör auf Skybases zu Bauen, du Scheißkind!");
+			}
+				
+		
 	}
 	
 	
