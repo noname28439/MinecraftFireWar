@@ -49,9 +49,7 @@ public class GameStateListener implements Listener {
 			if(!p.isOp())
 				e.setCancelled(true);
 		
-		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
-			
-		}
+		
 			
 		if(!BuildState.playerBuildStartPoints.containsKey(p))
 			BuildState.playerBuildStartPoints.put(p, null);

@@ -181,6 +181,10 @@ public class BuildState extends GameState{
 				cp.setGameMode(GameMode.SURVIVAL);
 				cp.teleport(spawn);
 				cp.getInventory().clear();
+				cp.getInventory().addItem(new ItemStack(Material.PINK_DYE));
+				cp.getInventory().addItem(new ItemStack(Material.MAGENTA_DYE));
+				cp.getInventory().addItem(new ItemStack(ct.getButtonMaterial(), 32));
+				cp.getInventory().addItem(new ItemStack(Material.TARGET));
 				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));
 				cp.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, BuildTimeSec*20, 5));
 				if(flightAllowed)
