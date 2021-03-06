@@ -33,7 +33,7 @@ public class BuildState extends GameState{
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(10*60);
+	public static final int BuildTimeSec = (int)(5*60);
 	
 	public static final boolean flightAllowed = true;
 	
@@ -181,8 +181,7 @@ public class BuildState extends GameState{
 				cp.setGameMode(GameMode.SURVIVAL);
 				cp.teleport(spawn);
 				cp.getInventory().clear();
-				cp.getInventory().addItem(new ItemStack(Material.PINK_DYE));
-				cp.getInventory().addItem(new ItemStack(Material.MAGENTA_DYE));
+				cp.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
 				cp.getInventory().addItem(new ItemStack(ct.getButtonMaterial(), 32));
 				cp.getInventory().addItem(new ItemStack(Material.TARGET));
 				cp.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, BuildTimeSec*20, 5));

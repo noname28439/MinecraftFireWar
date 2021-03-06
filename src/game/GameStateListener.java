@@ -9,6 +9,7 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -64,20 +65,22 @@ public class GameStateListener implements Listener {
 				p.openInventory(TeamManager.getSelectionInventory());
 				
 			}
-			if(inHand.getType()==Material.PINK_DYE) {
+			if(inHand.getType()==Material.NETHER_STAR) {
+				e.setCancelled(true);
 				if(e.getAction()==Action.RIGHT_CLICK_AIR)
 					BuildState.playerBuildStartPoints.put(p, p.getLocation());
 				else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
 					BuildState.playerBuildStartPoints.put(p, e.getClickedBlock().getLocation());
-				p.sendMessage("StartPos: "+BuildState.playerBuildStartPoints.get(p));
-			}
-			if(inHand.getType()==Material.MAGENTA_DYE) {
-				if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
-					if(e.getAction()==Action.RIGHT_CLICK_AIR)
-						BuildState.playerBuildEndPoints.put(p, p.getLocation());
-					else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
-						BuildState.playerBuildEndPoints.put(p, e.getClickedBlock().getLocation());
-				p.sendMessage("EndPos: "+BuildState.playerBuildEndPoints.get(p));
+				
+				if(e.getAction()==Action.LEFT_CLICK_AIR)
+					BuildState.playerBuildEndPoints.put(p, p.getLocation());
+				else if(e.getAction()==Action.LEFT_CLICK_BLOCK)
+					BuildState.playerBuildEndPoints.put(p, e.getClickedBlock().getLocation());
+			
+				if(BuildState.playerBuildEndPoints.get(p)!=null)
+					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildEndPoints.get(p), 0);
+				if(BuildState.playerBuildStartPoints.get(p)!=null)
+					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildStartPoints.get(p), 0);
 			}
 			
 		}	
