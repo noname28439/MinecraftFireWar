@@ -33,7 +33,7 @@ public class InGameBuildTools {
 					end.setZ(saved);
 				}
 				
-				System.out.println("Overwritten: "+start+" to "+end);
+				//System.out.println("Overwritten: "+start+" to "+end);
 				
 				for(int x = start.getBlockX();x<=end.getBlockX();x++)
 					for(int y = start.getBlockY();y<=end.getBlockY();y++)
