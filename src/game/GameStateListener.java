@@ -9,6 +9,7 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -64,20 +65,22 @@ public class GameStateListener implements Listener {
 				p.openInventory(TeamManager.getSelectionInventory());
 				
 			}
-			if(inHand.getType()==Material.PINK_DYE) {
+			if(inHand.getType()==Material.NETHER_STAR) {
+				e.setCancelled(true);
 				if(e.getAction()==Action.RIGHT_CLICK_AIR)
 					BuildState.playerBuildStartPoints.put(p, p.getLocation());
 				else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
 					BuildState.playerBuildStartPoints.put(p, e.getClickedBlock().getLocation());
-				p.sendMessage("StartPos: "+BuildState.playerBuildStartPoints.get(p));
-			}
-			if(inHand.getType()==Material.MAGENTA_DYE) {
-				if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
-					if(e.getAction()==Action.RIGHT_CLICK_AIR)
-						BuildState.playerBuildEndPoints.put(p, p.getLocation());
-					else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
-						BuildState.playerBuildEndPoints.put(p, e.getClickedBlock().getLocation());
-				p.sendMessage("EndPos: "+BuildState.playerBuildEndPoints.get(p));
+				
+				if(e.getAction()==Action.LEFT_CLICK_AIR)
+					BuildState.playerBuildEndPoints.put(p, p.getLocation());
+				else if(e.getAction()==Action.LEFT_CLICK_BLOCK)
+					BuildState.playerBuildEndPoints.put(p, e.getClickedBlock().getLocation());
+			
+				if(BuildState.playerBuildEndPoints.get(p)!=null)
+					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildEndPoints.get(p), 0);
+				if(BuildState.playerBuildStartPoints.get(p)!=null)
+					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildStartPoints.get(p), 0);
 			}
 			
 		}	
@@ -87,7 +90,7 @@ public class GameStateListener implements Listener {
 				if(e.getClickedBlock().getType()==Material.TNT) {
 					if(!FightState.blockDelays.containsKey(e.getClickedBlock())) {
 						
-						int choice = new Random().nextInt(4);
+						int choice = new Random().nextInt(5);
 						
 						ItemStack result = new ItemStack(Material.CAKE, 1);
 						
@@ -108,6 +111,8 @@ public class GameStateListener implements Listener {
 								result = new ItemStack(Material.BOOKSHELF, 1);
 						if(choice==3)
 							result = new ItemStack(Material.FEATHER, 1);
+						if(choice==4)
+							result = new ItemStack(Material.HEART_OF_THE_SEA, 1);
 						
 						p.getWorld().dropItem(e.getClickedBlock().getLocation().add(0, 1, 0), result);
 						
@@ -141,6 +146,28 @@ public class GameStateListener implements Listener {
 									e.getPlayer().getWorld().getBlockAt(e.getPlayer().getLocation().add(x, y, z)).setType(Material.GREEN_WOOL);
 							}
 					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+				}
+			
+				if(e.getAction()==Action.RIGHT_CLICK_BLOCK||e.getAction()==Action.RIGHT_CLICK_AIR) {
+					if(e.getPlayer().getItemInHand().getType()==Material.HEART_OF_THE_SEA) {
+						
+						Team targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
+						while(targetTeam==TeamManager.getPlayerTeam(p))
+							targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
+						
+						Player targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
+						p.sendMessage("Player: "+targetPlayer);
+						
+						Location toBomb = targetPlayer.getLocation();
+						
+						for(int i = 0; i<20;i++) {
+							Location in = toBomb.clone().add(new Random().nextInt(10)-5,BuildState.maxBuildHeight+20, new Random().nextInt(10)-5);
+							toBomb.getWorld().spawnEntity(in, EntityType.SNOWBALL);
+						}
+						
+						e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+					}	
+					
 				}
 				if(e.getPlayer().getItemInHand().getType()==Material.BLAZE_ROD) {
 					int size = 3;
