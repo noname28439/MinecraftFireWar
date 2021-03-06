@@ -2,6 +2,7 @@ package game;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -36,7 +37,9 @@ public class BuildState extends GameState{
 	
 	public static final boolean flightAllowed = true;
 	
-	
+	public static HashMap<Player, Location> playerBuildStartPoints = new HashMap<>();
+	public static HashMap<Player, Location> playerBuildEndPoints = new HashMap<>();
+			
 	public static final Material toSelfRepairBlockMaterial = Material.PINK_WOOL;
 	public static ArrayList<Block> toSelfRepairBlocks = new ArrayList<>();
 	
