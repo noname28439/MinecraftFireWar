@@ -49,6 +49,15 @@ public class GameStateListener implements Listener {
 			if(!p.isOp())
 				e.setCancelled(true);
 		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+			
+		}
+			
+		if(!BuildState.playerBuildStartPoints.containsKey(p))
+			BuildState.playerBuildStartPoints.put(p, null);
+		if(!BuildState.playerBuildEndPoints.containsKey(p))
+			BuildState.playerBuildEndPoints.put(p, null);
+		
 		if(p.getInventory().getItemInMainHand()!=null) {
 			ItemStack inHand = p.getInventory().getItemInMainHand();
 			
@@ -56,6 +65,21 @@ public class GameStateListener implements Listener {
 				if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
 				p.openInventory(TeamManager.getSelectionInventory());
 				
+			}
+			if(inHand.getType()==Material.PINK_DYE) {
+				if(e.getAction()==Action.RIGHT_CLICK_AIR)
+					BuildState.playerBuildStartPoints.put(p, p.getLocation());
+				else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
+					BuildState.playerBuildStartPoints.put(p, e.getClickedBlock().getLocation());
+				p.sendMessage("StartPos: "+BuildState.playerBuildStartPoints.get(p));
+			}
+			if(inHand.getType()==Material.MAGENTA_DYE) {
+				if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
+					if(e.getAction()==Action.RIGHT_CLICK_AIR)
+						BuildState.playerBuildEndPoints.put(p, p.getLocation());
+					else if(e.getAction()==Action.RIGHT_CLICK_BLOCK)
+						BuildState.playerBuildEndPoints.put(p, e.getClickedBlock().getLocation());
+				p.sendMessage("EndPos: "+BuildState.playerBuildEndPoints.get(p));
 			}
 			
 		}	
@@ -282,6 +306,11 @@ public class GameStateListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+		
+		if(!BuildState.playerBuildStartPoints.containsKey(p))
+			BuildState.playerBuildStartPoints.put(p, null);
+		if(!BuildState.playerBuildEndPoints.containsKey(p))
+			BuildState.playerBuildEndPoints.put(p, null);
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
 			//Game currently in LobbyState
