@@ -259,6 +259,11 @@ public class GameStateListener implements Listener {
 			if(e.getBlock().getType()==Material.TNT)
 				e.getBlock().getLocation().getWorld().createExplosion(e.getBlock().getLocation(), 2, false);
 		}
+		
+		if(e.getBlock().getType()==BuildState.toSelfRepairBlockMaterial)
+			if(BuildState.toSelfRepairBlocks.contains(e.getBlock()))
+				BuildState.toSelfRepairBlocks.remove(e.getBlock());
+		
 	}
 	
 	@EventHandler

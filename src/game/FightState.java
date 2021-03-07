@@ -153,7 +153,8 @@ public class FightState extends GameState{
 				}
 				
 				for(Block cb : toReplaceBlocks)
-					cb.setType(BuildState.toSelfRepairBlockMaterial);
+					if(cb.getType()==Material.AIR || cb.getType()==Material.FIRE)
+						cb.setType(BuildState.toSelfRepairBlockMaterial);
 				
 			}
 		}, 1*20, 5*20);
