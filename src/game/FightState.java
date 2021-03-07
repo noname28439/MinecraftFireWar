@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import main.Main;
+import settings.Settings;
 import teams.Team;
 
 public class FightState extends GameState{
@@ -25,7 +26,7 @@ public class FightState extends GameState{
 	int SchedulerID;
 	public static HashMap<Block, Integer> blockDelays = new HashMap<>();
 	public static HashMap<String, Integer> playerLives = new HashMap<>();
-	public static final int playerHP = 5;
+	public static final int playerHP = Settings.playerHP;
 	
 	public static void setupPlayer(Player cp) {
 		ItemStack bow = new ItemStack(Material.BOW, 1);
