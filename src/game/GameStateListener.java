@@ -22,6 +22,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -227,6 +228,16 @@ public class GameStateListener implements Listener {
 			p.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
 		}
 			
+		
+	}
+	
+	@EventHandler
+	public void onPlayerDie(PlayerDeathEvent e) {
+		Player dead = e.getEntity();
+		if(dead.getKiller()!=null) {
+			Player killer = dead.getKiller();
+			killer.getInventory().addItem(new ItemStack(Material.TNT));
+		}
 		
 	}
 	
