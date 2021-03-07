@@ -222,6 +222,10 @@ public class GameStateListener implements Listener {
 				}
 				
 			}
+		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+			p.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
+		}
 			
 		
 	}
