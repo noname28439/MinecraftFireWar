@@ -22,6 +22,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -222,7 +223,21 @@ public class GameStateListener implements Listener {
 				}
 				
 			}
+		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+			p.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
+		}
 			
+		
+	}
+	
+	@EventHandler
+	public void onPlayerDie(PlayerDeathEvent e) {
+		Player dead = e.getEntity();
+		if(dead.getKiller()!=null) {
+			Player killer = dead.getKiller();
+			killer.getInventory().addItem(new ItemStack(Material.TNT));
+		}
 		
 	}
 	
@@ -243,7 +258,7 @@ public class GameStateListener implements Listener {
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState||GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState)
 			if(e.getBlock().getLocation().getBlockY()>BuildState.maxBuildHeight) {
 				e.setCancelled(true);
-				e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 1);
+				//e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 1);
 				p.sendMessage("Hör auf Skybases zu Bauen, du Scheißkind!");
 			}
 				
@@ -259,6 +274,11 @@ public class GameStateListener implements Listener {
 			if(e.getBlock().getType()==Material.TNT)
 				e.getBlock().getLocation().getWorld().createExplosion(e.getBlock().getLocation(), 2, false);
 		}
+		
+		if(e.getBlock().getType()==BuildState.toSelfRepairBlockMaterial)
+			if(BuildState.toSelfRepairBlocks.contains(e.getBlock()))
+				BuildState.toSelfRepairBlocks.remove(e.getBlock());
+		
 	}
 	
 	@EventHandler

@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import main.Main;
+import settings.Settings;
 import teams.Team;
 import teams.TeamManager;
 
@@ -27,15 +28,15 @@ public class BuildState extends GameState{
 
 	static World buildStateWorld;
 	
-	static final int BaseDistance = 20;
+	static final int BaseDistance = Settings.baseDistance;
 	
-	public static final int maxBuildHeight = 60;
+	public static final int maxBuildHeight = Settings.maxBuildHeight;
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(5*60);
+	public static final int BuildTimeSec = (int)(Settings.buildTimeMinutes*60);
 	
-	public static final boolean flightAllowed = true;
+	public static final boolean flightAllowed = Settings.allowBuildFlight;
 	
 	public static HashMap<Player, Location> playerBuildStartPoints = new HashMap<>();
 	public static HashMap<Player, Location> playerBuildEndPoints = new HashMap<>();
