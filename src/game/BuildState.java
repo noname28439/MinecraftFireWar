@@ -28,15 +28,15 @@ public class BuildState extends GameState{
 
 	static World buildStateWorld;
 	
-	static final int BaseDistance = Settings.baseDistance;
+	static int BaseDistance = Settings.baseDistance;
 	
 	public static final int maxBuildHeight = Settings.maxBuildHeight;
 	
 	public int SchedulerID;
 	public int seconds = 0;
-	public static final int BuildTimeSec = (int)(Settings.buildTimeMinutes*60);
+	public static int BuildTimeSec = (int)(Settings.buildTimeMinutes*60);
 	
-	public static final boolean flightAllowed = Settings.allowBuildFlight;
+	public static boolean flightAllowed = Settings.allowBuildFlight;
 	
 	public static HashMap<Player, Location> playerBuildStartPoints = new HashMap<>();
 	public static HashMap<Player, Location> playerBuildEndPoints = new HashMap<>();
@@ -110,13 +110,13 @@ public class BuildState extends GameState{
 					Bukkit.broadcastMessage("Fangt an, euch für den Kampf vorzubereiten!");
 					break;
 					
-				case BuildTimeSec-30: case BuildTimeSec-60: case BuildTimeSec-15:
-					Bukkit.broadcastMessage("Noch "+(BuildTimeSec-seconds)+" Sekunden!");
-					break;
+//				case BuildTimeSec-30: case BuildTimeSec-60: case BuildTimeSec-15:
+//					Bukkit.broadcastMessage("Noch "+(BuildTimeSec-seconds)+" Sekunden!");
+//					break;
 
-				case BuildTimeSec:
-					Bukkit.broadcastMessage("Der Kampf beginnt!");
-					break;
+//				case BuildTimeSec:
+//					Bukkit.broadcastMessage("Der Kampf beginnt!");
+//					break;
 				}
 				
 				if(seconds>BuildTimeSec) {
