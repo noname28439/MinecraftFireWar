@@ -113,7 +113,10 @@ public class GameStateListener implements Listener {
 						if(choice==3)
 							result = new ItemStack(Material.FEATHER, 1);
 						if(choice==4)
-							result = new ItemStack(Material.HEART_OF_THE_SEA, 1);
+							if(new Random().nextInt(2)==0)
+								result = new ItemStack(Material.HEART_OF_THE_SEA, 1);
+							else
+								result = new ItemStack(Material.FEATHER, 1);
 						
 						p.getWorld().dropItem(e.getClickedBlock().getLocation().add(0, 1, 0), result);
 						
