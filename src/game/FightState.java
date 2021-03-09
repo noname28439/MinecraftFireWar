@@ -126,6 +126,7 @@ public class FightState extends GameState{
 				
 				if(aliveTeams.size()==1) {
 					Bukkit.broadcastMessage("Team "+aliveTeams.get(0).getTeamName()+" hat das Match gewonnen!");
+					BuildState.buildStateWorld.setGameRuleValue("doFireTick", "false");
 					Bukkit.reload();
 				}
 					

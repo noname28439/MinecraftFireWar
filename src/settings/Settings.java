@@ -7,5 +7,6 @@ public class Settings {
 	public static boolean allowBuildFlight = true;
 	public static int baseDistance = 20;
 	public static int playerHP = 5;
+	public static boolean KeepInventory = true;
 	
 }

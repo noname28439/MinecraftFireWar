@@ -36,6 +36,7 @@ import org.bukkit.util.Vector;
 import main.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_16_R3.IHopper;
+import settings.Settings;
 import teams.Team;
 import teams.TeamManager;
 
@@ -212,7 +213,9 @@ public class GameStateListener implements Listener {
 			e.setRespawnLocation(TeamManager.getPlayerTeam(p).getRespawnPoint());
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
-			FightState.setupPlayer(p);
+				if(!Settings.KeepInventory)
+					FightState.setupPlayer(p);
+				
 				if(!FightState.playerLives.containsKey(p.getName())){
 					FightState.playerLives.put(p.getName(), FightState.playerHP);
 				}
@@ -228,7 +231,8 @@ public class GameStateListener implements Listener {
 			}
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
-			p.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
+			if(!Settings.KeepInventory)
+				p.getInventory().addItem(new ItemStack(Material.NETHER_STAR));
 		}
 			
 		
