@@ -48,9 +48,7 @@ public class GameStateListener implements Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		
-		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
-			if(!p.isOp())
-				e.setCancelled(true);
+		
 		
 		
 			
@@ -196,6 +194,7 @@ public class GameStateListener implements Listener {
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
 			if(!p.isOp())
 				e.setCancelled(true);
+		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			if(e.getPlayer().getItemInHand().getType()==Material.BOW||e.getPlayer().getItemInHand().getType()==Material.ARROW)
 				e.setCancelled(true);
@@ -252,6 +251,10 @@ public class GameStateListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Player p = e.getPlayer();
 		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
+			if(!p.isOp())
+				e.setCancelled(true);
+		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
 			if(e.getBlock().getLocation().getBlockZ()<10&&e.getBlock().getLocation().getBlockZ()>-10)
 				e.setCancelled(true);
@@ -276,6 +279,9 @@ public class GameStateListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		Player p = e.getPlayer();
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState)
+			if(!p.isOp())
+				e.setCancelled(true);
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
 			if(e.getBlock().getType()==Material.TNT)
