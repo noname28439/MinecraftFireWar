@@ -1,6 +1,7 @@
 package game;
 
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.border.EtchedBorder;
 
@@ -257,6 +258,8 @@ public class GameStateListener implements Listener {
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
 			if(e.getBlock().getLocation().getBlockZ()<10&&e.getBlock().getLocation().getBlockZ()>-10)
+				e.setCancelled(true);
+			if(e.getBlock().getLocation().getBlockX()>Settings.maxBuildWidth||e.getBlock().getLocation().getBlockX()<-Settings.maxBuildWidth)
 				e.setCancelled(true);
 		}
 		
