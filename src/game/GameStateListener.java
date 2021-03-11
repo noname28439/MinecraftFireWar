@@ -1,9 +1,6 @@
 package game;
 
 import java.util.Random;
-
-import javax.swing.border.EtchedBorder;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -19,12 +16,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -33,9 +27,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import main.Main;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_16_R3.IHopper;
 import settings.Settings;
 import teams.Team;
 import teams.TeamManager;
@@ -159,6 +151,9 @@ public class GameStateListener implements Listener {
 							targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
 						
 						Player targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
+						while(targetPlayer.getGameMode()!=GameMode.SURVIVAL)
+							targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
+						
 						p.sendMessage("Player: "+targetPlayer);
 						
 						Location toBomb = targetPlayer.getLocation();
@@ -257,6 +252,8 @@ public class GameStateListener implements Listener {
 		
 		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
 			if(e.getBlock().getLocation().getBlockZ()<10&&e.getBlock().getLocation().getBlockZ()>-10)
+				e.setCancelled(true);
+			if(e.getBlock().getLocation().getBlockX()>Settings.maxBuildWidth||e.getBlock().getLocation().getBlockX()<-Settings.maxBuildWidth)
 				e.setCancelled(true);
 		}
 		
