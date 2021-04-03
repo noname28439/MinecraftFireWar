@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -31,6 +34,8 @@ public class Main extends JavaPlugin{
 	public void onEnable() {
 		plugin = this;
 		GameStateManager.setGameState(new LobbyState());
+		
+		
 		
 		
 		//Reigster Commands

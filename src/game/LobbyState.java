@@ -44,7 +44,7 @@ public class LobbyState extends GameState{
 		for(Player cp : Bukkit.getOnlinePlayers()) {
 			setInventory(cp);
 			cp.teleport(lobbyLocation);
-			cp.setGameMode(GameMode.SURVIVAL);
+			cp.setGameMode(GameMode.ADVENTURE);
 			cp.getActivePotionEffects().clear();
 			cp.setAllowFlight(false);
 			cp.setLevel(0);

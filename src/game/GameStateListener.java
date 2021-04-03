@@ -11,20 +11,25 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
@@ -34,6 +39,34 @@ import teams.TeamManager;
 
 public class GameStateListener implements Listener {
 
+	
+	@EventHandler
+	public void OnPlayerDamage(EntityDamageByEntityEvent e) {
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+			if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+	            Player whoWasHit = (Player) e.getEntity();
+	            Player whoHit = (Player) e.getDamager();
+	            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
+	        }
+			
+		}
+	}
+	
+	@EventHandler
+	public void OnPlayerDamageHanging(HangingBreakByEntityEvent  e) {
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+			if(e.getEntity() instanceof Painting)
+				e.setCancelled(true);
+		
+			if (e.getRemover() instanceof Player) {
+				Player remover = (Player) e.getRemover();
+	            if(remover.getGameMode()==GameMode.CREATIVE)
+	            	e.setCancelled(false);
+	        }
+		}
+	}
+	
+	
 	
 	
 	@EventHandler
@@ -234,13 +267,16 @@ public class GameStateListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerDie(PlayerDeathEvent e) {
-		Player dead = e.getEntity();
-		if(dead.getKiller()!=null) {
-			Player killer = dead.getKiller();
-			killer.getInventory().addItem(new ItemStack(Material.TNT));
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.FightState) {
+			Player dead = e.getEntity();
+			if(dead.getKiller()!=null) {
+				Player killer = dead.getKiller();
+				killer.getInventory().addItem(new ItemStack(Material.TNT));
+			}
 		}
-		
 	}
+	
+	
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
