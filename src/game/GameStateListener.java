@@ -30,8 +30,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
+import main.Main;
 import net.md_5.bungee.api.ChatColor;
 import settings.Settings;
 import teams.Team;
@@ -46,8 +48,13 @@ public class GameStateListener implements Listener {
 			if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 	            Player whoWasHit = (Player) e.getEntity();
 	            Player whoHit = (Player) e.getDamager();
-	            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
+	            if(whoWasHit.getName().equalsIgnoreCase(Main.getHunter())) {
+	            	whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
+		            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 5*20, 200));
+	            }
+	            
 	        }
+			
 			
 		}
 	}

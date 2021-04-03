@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import commads.SpectateCMD;
 import commads.TestCMD;
@@ -30,10 +33,29 @@ public class Main extends JavaPlugin{
 	
 	public static JavaPlugin plugin;
 	
+	public static String getHunter() {
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Objective obj = board.getObjective("Sucher");
+		for(OfflinePlayer cp : Bukkit.getOfflinePlayers()) {
+			
+			try {
+				if(obj.getScore(cp).getScore()==1)
+					return obj.getScore(cp).getEntry();
+			} catch (Exception e) {
+				System.out.println("Nullpointer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + e.getStackTrace());
+			}
+			
+		}
+		return null;
+	}
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
 		GameStateManager.setGameState(new LobbyState());
+		
+		
+		
 		
 		
 		
