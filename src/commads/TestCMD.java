@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import game.BuildState;
 import game.GameStateManager;
 import game.InGameBuildTools;
+import net.md_5.bungee.api.ChatColor;
 
 public class TestCMD implements CommandExecutor {
 
@@ -47,9 +48,6 @@ public class TestCMD implements CommandExecutor {
 		
 		
 		
-		
-		
-		
 		if(p.isOp()) {
 			if(args.length==1) {
 				if(args[0].equalsIgnoreCase("skip"))
@@ -66,8 +64,12 @@ public class TestCMD implements CommandExecutor {
 				
 			}else if(args.length==2) {
 				if(args[0].equalsIgnoreCase("start")) {
-					BuildState.BuildTimeSec = (int)(Integer.valueOf(args[1])*60);
-					GameStateManager.setGameState(new BuildState());
+					if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+						BuildState.BuildTimeSec = (int)(Integer.valueOf(args[1])*60);
+						GameStateManager.setGameState(new BuildState());
+					}else {
+						p.sendMessage(ChatColor.RED+"Du kannst diesen Befehl nur in der Lobby ausführen!");
+					}
 				}
 			}
 		}
