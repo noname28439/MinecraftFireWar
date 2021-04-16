@@ -1,6 +1,9 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import org.apache.logging.log4j.core.appender.rolling.OnStartupTriggeringPolicy;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -9,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Painting;
@@ -40,7 +44,7 @@ import teams.Team;
 import teams.TeamManager;
 
 public class GameStateListener implements Listener {
-
+	
 	
 	@EventHandler
 	public void OnPlayerDamage(EntityDamageByEntityEvent e) {
@@ -48,15 +52,106 @@ public class GameStateListener implements Listener {
 			if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 	            Player whoWasHit = (Player) e.getEntity();
 	            Player whoHit = (Player) e.getDamager();
-	            if(whoWasHit.getName().equalsIgnoreCase(Main.getHunter())) {
-	            	whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
-		            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 5*20, 200));
+	            whoHit.sendMessage("Du hast "+e.getDamage()+" Damage gemacht!");
+	            
+	            if(whoWasHit.getPotionEffect(PotionEffectType.LUCK)!=null)
+					if(whoWasHit.getPotionEffect(PotionEffectType.LUCK).getAmplifier()==200)
+						e.setCancelled(true);
+	            
+	            if(Main.isHunter(whoWasHit.getName())) {
+	            	if(!whoWasHit.isBlocking()) {
+//	            		whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 3*20, 200));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 5*20, 200));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3*20, 200));
+	            	}
+	            	
 	            }
+	            
+	            
+	        }
+			if (e.getEntity() instanceof Player && e.getDamager() instanceof Arrow) {
+	            Player whoWasHit = (Player) e.getEntity();
+	            Arrow whoHit = (Arrow) e.getDamager();
+	            
+	            if(whoWasHit.getPotionEffect(PotionEffectType.LUCK)!=null)
+					if(whoWasHit.getPotionEffect(PotionEffectType.LUCK).getAmplifier()==200)
+						e.setCancelled(true);
+	            
+	            if(Main.isHunter(whoWasHit.getName())) {
+	            	if(!whoWasHit.isBlocking()) {
+//	            		whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5*20, 255));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 3*20, 200));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 5*20, 200));
+			            whoWasHit.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3*20, 200));
+	            	}
+	            	
+	            }
+	            
 	            
 	        }
 			
 			
 		}
+	}
+	
+	@EventHandler
+	public void OnPlayerMove(PlayerMoveEvent e) {
+		
+		//e.getPlayer().sendMessage(""+e.getPlayer().getWalkSpeed());
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+			Player nearensEnemy = null;
+			double nearestDist = Double.MAX_VALUE;
+			for(Player cp : Bukkit.getOnlinePlayers()) {
+				double dist = e.getPlayer().getLocation().distance(cp.getLocation());
+				if(dist<nearestDist) {
+					nearestDist = dist;
+					nearensEnemy = cp;
+				}
+			}
+			if(nearensEnemy!=null)
+			e.getPlayer().setCompassTarget(nearensEnemy.getLocation());
+			
+			Location movedFrom = e.getFrom();
+	        Location movedTo = e.getTo();
+	        if ((movedFrom.getX() != movedTo.getX() || movedFrom.getY() != movedTo.getY() || movedFrom.getZ() != movedTo.getZ()) && e.getPlayer().isOnGround()) {
+					if(e.getPlayer().getPotionEffect(PotionEffectType.FIRE_RESISTANCE)!=null) {
+						if(e.getPlayer().getPotionEffect(PotionEffectType.FIRE_RESISTANCE).getAmplifier()==200) {
+							//e.setTo(new Location(e.getPlayer().getWorld(),movedFrom.getX() ,movedFrom.getY(), movedFrom.getZ(), e.getPlayer().getLocation().getYaw(), e.getPlayer().getLocation().getPitch()));
+							e.getPlayer().setWalkSpeed(0f);
+							
+						}	
+					}else {
+						e.getPlayer().setWalkSpeed(0.2f);
+					}
+					
+							
+	        }
+	        if(Main.isHunter(e.getPlayer().getName())) {
+	        	if(new Random().nextInt(1000)==0)
+	        		e.getPlayer().getInventory().addItem(new ItemStack(Material.ENDER_EYE, 1));
+	        }else {
+	        	
+	        }
+	        
+	        if(new Random().nextInt(500)==0) {
+        		Location dropLoc = e.getPlayer().getLocation();
+        		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() {
+					@Override
+					public void run() {
+						if(new Random().nextInt(4)==0)
+							e.getPlayer().getWorld().dropItem(dropLoc, new ItemStack(Material.ENDER_PEARL));
+						else
+							e.getPlayer().getWorld().dropItem(dropLoc, new ItemStack(Material.ARROW));
+						
+					}
+				}, (new Random().nextInt(20)+20)*20);
+        	}
+	        
+		}
+		
+		
+		
 	}
 	
 	@EventHandler
@@ -78,9 +173,39 @@ public class GameStateListener implements Listener {
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
+		
+		
+		
+		
 		Player p = e.getPlayer();
 		
-		
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+			if(e.getClickedBlock()!=null) {
+				if(e.getClickedBlock().getType().toString().toLowerCase().contains("warped"))
+					e.setCancelled(true);
+				if(Main.isHunter(p.getName())|| p.getGameMode()==GameMode.CREATIVE) {
+					e.setCancelled(false);
+				}
+			}
+			if(e.getAction()==Action.RIGHT_CLICK_AIR||e.getAction()==Action.RIGHT_CLICK_BLOCK)
+			if(e.getPlayer().getItemInHand()!=null)
+				if(e.getPlayer().getItemInHand().getType()==Material.ENDER_EYE) {
+					if(Main.isHunter(e.getPlayer().getName())) {
+						e.getPlayer().removePotionEffect(PotionEffectType.GLOWING);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.plugin, new Runnable() {
+							
+							@Override
+							public void run() {
+								e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 255));
+							}
+						}, 20*20);
+						e.setCancelled(true);
+						e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+					}
+				}
+					
+			
+		}
 		
 		
 			
@@ -113,6 +238,23 @@ public class GameStateListener implements Listener {
 					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildEndPoints.get(p), 0);
 				if(BuildState.playerBuildStartPoints.get(p)!=null)
 					p.getWorld().spawnParticle(Particle.HEART, BuildState.playerBuildStartPoints.get(p), 0);
+				
+				if(GameStateManager.getCurrentGameState().getID()==GameStateManager.BuildState) {
+					if(BuildState.playerBuildStartPoints.get(p)!=null)
+						if(BuildState.playerBuildStartPoints.get(p).getY()>BuildState.maxBuildHeight) {
+							Location newPos = BuildState.playerBuildStartPoints.get(p);
+							newPos.setY(BuildState.maxBuildHeight);
+							BuildState.playerBuildStartPoints.put(p, newPos);
+						}
+					if(BuildState.playerBuildEndPoints.get(p)!=null)
+						if(BuildState.playerBuildEndPoints.get(p).getY()>BuildState.maxBuildHeight) {
+							Location newPos = BuildState.playerBuildEndPoints.get(p);
+							newPos.setY(BuildState.maxBuildHeight);
+							BuildState.playerBuildEndPoints.put(p, newPos);
+						}
+							
+				}
+				
 			}
 			
 		}	

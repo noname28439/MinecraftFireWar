@@ -33,20 +33,18 @@ public class Main extends JavaPlugin{
 	
 	public static JavaPlugin plugin;
 	
-	public static String getHunter() {
+	public static boolean isHunter(String name) {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		Objective obj = board.getObjective("Sucher");
 		for(OfflinePlayer cp : Bukkit.getOfflinePlayers()) {
-			
-			try {
+			if(cp.getName().equalsIgnoreCase(name)) {
 				if(obj.getScore(cp).getScore()==1)
-					return obj.getScore(cp).getEntry();
-			} catch (Exception e) {
-				System.out.println("Nullpointer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + e.getStackTrace());
+					return true;
+				else
+					return false;
 			}
-			
 		}
-		return null;
+		return false;
 	}
 	
 	@Override
