@@ -1,11 +1,15 @@
 package commads;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,9 +24,21 @@ import net.md_5.bungee.api.ChatColor;
 public class TestCMD implements CommandExecutor {
 
 	static void TravelWorldAddIndex(Player p, int steps) {
-		List<World> worldList = Bukkit.getServer().getWorlds();
+		File[] worldFiles = new File(".").listFiles(new FileFilter() {
+		    @Override
+		    public boolean accept(File file) {
+		        return file.isDirectory()&&file.getName().startsWith("InGameWorld");
+		    }
+		});
 		
-		int currentWorldIndex = worldList.indexOf(p.getWorld());
+		List<String> worldList = new ArrayList<String>();
+		for(File cf : worldFiles) worldList.add(cf.getName());
+		
+		
+		//List<World> worldList = Bukkit.getServer().getWorlds();
+		
+		
+		int currentWorldIndex = worldList.indexOf(p.getWorld().getName());
 		
 		int targetWorldIndex = currentWorldIndex+steps;
 		if(targetWorldIndex<0)
@@ -30,14 +46,19 @@ public class TestCMD implements CommandExecutor {
 		if(targetWorldIndex>=worldList.size())
 			targetWorldIndex = targetWorldIndex-worldList.size();
 		
-		p.sendMessage("traveling to World "+String.valueOf(worldList.get(targetWorldIndex).getName())+" [Index: "+String.valueOf(targetWorldIndex)+"/"+worldList.size()+"]");
-		travedWorld(p, worldList.get(targetWorldIndex));
+		p.sendMessage("traveling to World "+String.valueOf(worldList.get(targetWorldIndex))+" [Index: "+String.valueOf(targetWorldIndex)+"/"+worldList.size()+"]");
+		loadAndTravelWorld(p, worldList.get(targetWorldIndex));
 			
 	}
 	
 	static void travedWorld(Player p, World target) {
 		p.setGameMode(GameMode.SPECTATOR);
 		p.teleport(new Location(target, 0, 20, 0));
+	}
+	
+	static void loadAndTravelWorld(Player p, String target) {
+		World created = new WorldCreator(target).createWorld();
+		travedWorld(p, created);
 	}
 	
 	
@@ -75,13 +96,13 @@ public class TestCMD implements CommandExecutor {
 		}
 		
 		if(args.length==2) {
-			if(args[0].equalsIgnoreCase("vv")) {
-				travedWorld(p, Bukkit.getWorld(args[1]));
+			if(args[0].equalsIgnoreCase("wn")) {
+				loadAndTravelWorld(p, args[1]);
 			}
 		}else if(args.length==1) {
-			if(args[0].equalsIgnoreCase("vb"))
+			if(args[0].equalsIgnoreCase("wb"))
 				TravelWorldAddIndex(p, 1);
-			if(args[0].equalsIgnoreCase("vf"))
+			if(args[0].equalsIgnoreCase("wf"))
 				TravelWorldAddIndex(p, 1);
 		}
 		
