@@ -52,11 +52,8 @@ public class Main extends JavaPlugin{
 		plugin = this;
 		GameStateManager.setGameState(new LobbyState());
 		
-		
-		
-		
-		
-		
+		for(Player cp : Bukkit.getOnlinePlayers())
+			cp.setPlayerListName(cp.getName());
 		
 		//Reigster Commands
 		getCommand("test").setExecutor(new TestCMD());
