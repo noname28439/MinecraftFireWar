@@ -45,51 +45,71 @@ public class FightState extends GameState{
 	
 	public static void dropBuildItem(Location dropLoc) {
 
-		int choice = new Random().nextInt(17);
+		Random random = new Random();
 		
-		ItemStack result = new ItemStack(Material.LAVA_BUCKET, 1);
+		ItemStack[] lootTable = new ItemStack[] {
+				new ItemStack(Material.SLIME_BALL, random.nextInt(3)+1),
+				new ItemStack(Material.REDSTONE, random.nextInt(5)+1),
+				new ItemStack(Material.PINK_WOOL, random.nextInt(4)+1),
+				new ItemStack(Material.DARK_OAK_BUTTON, random.nextInt(4)+1),
+				new ItemStack(Material.CRIMSON_DOOR, random.nextInt(2)+1),
+				new ItemStack(Material.WARPED_PRESSURE_PLATE, random.nextInt(2)+1),
+				new ItemStack(Material.LEVER, random.nextInt(2)+1),
+				new ItemStack(Material.REPEATER, random.nextInt(2)+1),
+				new ItemStack(Material.OBSERVER, random.nextInt(2)+1),
+				new ItemStack(Material.DISPENSER, random.nextInt(2)+1),
+				new ItemStack(Material.SCAFFOLDING, random.nextInt(6)+1),
+				new ItemStack(Material.PINK_WOOL, random.nextInt(4)+1),
+				new ItemStack(Material.PINK_WOOL, random.nextInt(4)+1),
+				new ItemStack(Material.PINK_WOOL, random.nextInt(4)+1),
+				new ItemStack(Material.CHICKEN_SPAWN_EGG, random.nextInt(2)+1),
+				new ItemStack(Material.WHEAT_SEEDS, random.nextInt(9)+1),
+				new ItemStack(Material.ENDER_PEARL, 1),
+				new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1),
+				new ItemStack(Material.BLAZE_ROD, 1),
+				new ItemStack(Material.SHIELD, 1),
+				new ItemStack(Material.OBSIDIAN, 1),
+				new ItemStack(Material.BELL, random.nextInt(2)+1),
+				new ItemStack(Material.GRAY_WOOL, random.nextInt(10)+5),
+				new ItemStack(Material.GRAY_WOOL, random.nextInt(10)+5),
+				new ItemStack(Material.GRAY_WOOL, random.nextInt(10)+5),
+				new ItemStack(Material.GRAY_WOOL, random.nextInt(10)+5),
+				new ItemStack(Material.DRAGON_HEAD, 1),
+				new ItemStack(Material.DIAMOND, random.nextInt(2)+1),
+				new ItemStack(Material.COBWEB, 1),
+				new ItemStack(Material.CAULDRON, 1),
+				new ItemStack(Material.BIRCH_BOAT, 1),
+				new ItemStack(Material.MINECART, 1),
+				new ItemStack(Material.CHEST, 1),
+				new ItemStack(Material.GOLDEN_APPLE, new Random().nextInt(2)+2),
+				new ItemStack(Material.GOLDEN_APPLE, new Random().nextInt(2)+2),
+				new ItemStack(Material.GOLDEN_APPLE, new Random().nextInt(2)+2),
+				new ItemStack(Material.GOLDEN_APPLE, new Random().nextInt(2)+2),
+				new ItemStack(Material.GOLDEN_APPLE, new Random().nextInt(2)+2),
+				new ItemStack(Material.DIAMOND_SWORD, 1),
+				new ItemStack(Material.SPECTRAL_ARROW, random.nextInt(2)+1),
+				new ItemStack(Material.FEATHER, random.nextInt(2)+1),
+				new ItemStack(Material.FEATHER, random.nextInt(2)+1),
+				new ItemStack(Material.FEATHER, random.nextInt(2)+1),
+				new ItemStack(Material.RAIL, random.nextInt(5)+2),
+				new ItemStack(Material.POWERED_RAIL, random.nextInt(1)+2),
+				new ItemStack(Material.BREAD, random.nextInt(2)+3),
+				new ItemStack(Material.BREAD, random.nextInt(2)+3),
+				new ItemStack(Material.BREAD, random.nextInt(2)+3),
+				new ItemStack(Material.COOKED_BEEF, random.nextInt(3)+2),
+				new ItemStack(Material.COOKED_BEEF, random.nextInt(3)+2),
+				new ItemStack(Material.COOKED_BEEF, random.nextInt(3)+2),
+				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
+				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
+				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				};
 		
-		if(choice==0)
-			result = new ItemStack(Material.SLIME_BALL, new Random().nextInt(3)+1);
-		if(choice==1)
-			result = new ItemStack(Material.REDSTONE, new Random().nextInt(5)+1);
-		if(choice==2)
-			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
-		if(choice==3)
-			result = new ItemStack(Material.DARK_OAK_BUTTON, new Random().nextInt(4)+1);
-		if(choice==4)
-			result = new ItemStack(Material.CRIMSON_DOOR, new Random().nextInt(2)+1);
-		if(choice==5)
-			result = new ItemStack(Material.WARPED_PRESSURE_PLATE, new Random().nextInt(2)+1);
-		if(choice==6)
-			result = new ItemStack(Material.LEVER, new Random().nextInt(2)+1);
-		if(choice==7)
-			result = new ItemStack(Material.REPEATER, new Random().nextInt(2)+1);
-		if(choice==8)
-			result = new ItemStack(Material.OBSERVER, new Random().nextInt(2)+1);
-		if(choice==9)
-			result = new ItemStack(Material.DISPENSER, new Random().nextInt(2)+1);
-		if(choice==10)
-			result = new ItemStack(Material.SCAFFOLDING, new Random().nextInt(6)+1);
-		if(choice==11)
-			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
-		if(choice==12)
-			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
-		if(choice==13)
-			result = new ItemStack(Material.PINK_WOOL, new Random().nextInt(4)+1);
-		if(choice==13)
-			result = new ItemStack(Material.CHICKEN_SPAWN_EGG, new Random().nextInt(2)+1);
-		if(choice==13)
-			result = new ItemStack(Material.WHEAT_SEEDS, new Random().nextInt(9)+1);
-		if(choice==14)
-			if(new Random().nextInt(3)==0)
-				result = new ItemStack(Material.ENDER_PEARL, 1);
-			else
-				result = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1);
-		if(choice==15)
-			result = new ItemStack(Material.BLAZE_ROD, 1);
-		if(choice==16)
-			result = new ItemStack(Material.SHIELD, 1);
+		
+		ItemStack result = lootTable[new Random().nextInt(lootTable.length)];
 		
 		dropLoc.getWorld().dropItem(dropLoc, result);
 		

@@ -69,8 +69,14 @@ public class BuildState extends GameState{
 		if(choice==8)
 			toAdd = new ItemStack(Material.LADDER, 1);
 		if(choice==9)
-			if(new Random().nextInt(5)==0)
-				toAdd = new ItemStack(Material.TNT, 1);
+			if(new Random().nextInt(3)==0) {
+				if(new Random().nextInt(Bukkit.getOnlinePlayers().size())== 0) {
+					for(Player cp : Bukkit.getOnlinePlayers())
+						cp.getInventory().addItem(new ItemStack(Material.TNT, 1));
+					toAdd = new ItemStack(Material.OBSIDIAN, 1);
+				}
+			}
+			
 		if(choice==10)
 			if(new Random().nextInt(8)==0)
 				toAdd = new ItemStack(Material.TARGET, 1);
@@ -86,7 +92,6 @@ public class BuildState extends GameState{
 		if(choice==18)
 			if(new Random().nextInt(2)==0)
 				toAdd = new ItemStack(Material.ANVIL, 1);
-		
 		
 		
 		
