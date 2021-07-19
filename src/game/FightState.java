@@ -101,7 +101,11 @@ public class FightState extends GameState{
 				new ItemStack(Material.COOKED_BEEF, random.nextInt(3)+2),
 				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
 				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
-				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4)
+				new ItemStack(Material.COOKED_CHICKEN, random.nextInt(5)+4),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
+				new ItemStack(Material.FIRE_CHARGE, 1),
 				};
 		
 		

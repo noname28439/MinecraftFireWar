@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -328,6 +329,7 @@ public class GameStateListener implements Listener {
 				if(e.getPlayer().getWorld().getBlockAt(e.getPlayer().getLocation()).getType() == Material.CAULDRON) {
 					if(e.getPlayer().getItemInHand().getType()==Material.ARROW) {
 						if(e.getPlayer().getFoodLevel()>1) {
+							e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1, 100));
 							e.getPlayer().launchProjectile(Arrow.class);
 							if(new Random().nextInt(2)==0)
 								e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel()-1);
@@ -357,6 +359,11 @@ public class GameStateListener implements Listener {
 					
 					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
 				}	
+				
+				if(e.getPlayer().getItemInHand().getType()==Material.FIRE_CHARGE) {
+					e.getPlayer().launchProjectile(Fireball.class);
+					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+				}
 				
 				if(e.getPlayer().getItemInHand().getType()==Material.BLAZE_ROD) {
 					int size = 3;
@@ -535,6 +542,10 @@ public class GameStateListener implements Listener {
 			if(projectile.getType().equals(EntityType.EGG))
 				if(e.getHitBlock()!=null)
 					e.getHitBlock().setType(Material.FIRE);
+			
+			if(projectile.getType().equals(EntityType.FIREBALL))
+				if(e.getHitBlock()!=null)
+					e.getHitBlock().getWorld().spawnEntity(e.getHitBlock().getLocation(), EntityType.BLAZE);
 			
 			if(projectile.getType().equals(EntityType.ARROW)) {
 				if(e.getHitBlock()!=null) {

@@ -101,7 +101,7 @@ public class TestCMD implements CommandExecutor {
 			}
 		}else if(args.length==1) {
 			if(args[0].equalsIgnoreCase("wb"))
-				TravelWorldAddIndex(p, 1);
+				TravelWorldAddIndex(p, -1);
 			if(args[0].equalsIgnoreCase("wf"))
 				TravelWorldAddIndex(p, 1);
 		}
