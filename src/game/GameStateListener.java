@@ -99,7 +99,7 @@ public class GameStateListener implements Listener {
 	public void OnPlayerMove(PlayerMoveEvent e) {
 		
 		//e.getPlayer().sendMessage(""+e.getPlayer().getWalkSpeed());
-		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState) {
+		if(GameStateManager.getCurrentGameState().getID()==GameStateManager.LobbyState && e.getPlayer().getWorld().getName()=="world") {
 			Player nearensEnemy = null;
 			double nearestDist = Double.MAX_VALUE;
 			for(Player cp : Bukkit.getOnlinePlayers()) {
@@ -324,31 +324,40 @@ public class GameStateListener implements Listener {
 							}
 					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
 				}
-			
-				if(e.getAction()==Action.RIGHT_CLICK_BLOCK||e.getAction()==Action.RIGHT_CLICK_AIR) {
-					if(e.getPlayer().getItemInHand().getType()==Material.HEART_OF_THE_SEA) {
-						
-						Team targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
-						while(targetTeam==TeamManager.getPlayerTeam(p))
-							targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
-						
-						Player targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
-						while(targetPlayer.getGameMode()!=GameMode.SURVIVAL)
-							targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
-						
-						p.sendMessage("Player: "+targetPlayer);
-						
-						Location toBomb = targetPlayer.getLocation();
-						
-						for(int i = 0; i<20;i++) {
-							Location in = toBomb.clone().add(new Random().nextInt(10)-5,BuildState.maxBuildHeight+20, new Random().nextInt(10)-5);
-							toBomb.getWorld().spawnEntity(in, EntityType.SNOWBALL);
+				
+				if(e.getPlayer().getWorld().getBlockAt(e.getPlayer().getLocation()).getType() == Material.CAULDRON) {
+					if(e.getPlayer().getItemInHand().getType()==Material.ARROW) {
+						if(e.getPlayer().getFoodLevel()>1) {
+							e.getPlayer().launchProjectile(Arrow.class);
+							if(new Random().nextInt(2)==0)
+								e.getPlayer().setFoodLevel(e.getPlayer().getFoodLevel()-1);
 						}
 						
-						e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
-					}	
-					
+					}
 				}
+				
+				if(e.getPlayer().getItemInHand().getType()==Material.HEART_OF_THE_SEA) {
+					
+					Team targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
+					while(targetTeam==TeamManager.getPlayerTeam(p))
+						targetTeam = Team.values()[new Random().nextInt(Team.values().length)];
+					
+					Player targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
+					while(targetPlayer.getGameMode()!=GameMode.SURVIVAL)
+						targetPlayer = targetTeam.getTeamPlayers().get(new Random().nextInt(targetTeam.getTeamPlayers().size()));
+					
+					p.sendMessage("Player: "+targetPlayer);
+					
+					Location toBomb = targetPlayer.getLocation();
+					
+					for(int i = 0; i<20;i++) {
+						Location in = toBomb.clone().add(new Random().nextInt(10)-5,BuildState.maxBuildHeight+20, new Random().nextInt(10)-5);
+						toBomb.getWorld().spawnEntity(in, EntityType.SNOWBALL);
+					}
+					
+					e.getPlayer().getItemInHand().setAmount(e.getPlayer().getItemInHand().getAmount()-1);
+				}	
+				
 				if(e.getPlayer().getItemInHand().getType()==Material.BLAZE_ROD) {
 					int size = 3;
 					for(int x = 0; x<3;x++)
@@ -528,11 +537,17 @@ public class GameStateListener implements Listener {
 					e.getHitBlock().setType(Material.FIRE);
 			
 			if(projectile.getType().equals(EntityType.ARROW)) {
-				if(e.getHitBlock()!=null)
+				if(e.getHitBlock()!=null) {
+					if(e.getHitBlock().getType()==Material.CAULDRON) {
+						e.getHitBlock().setType(Material.LAVA);
+						e.getHitBlock().getWorld().createExplosion(projectile.getLocation(), 10, true);
+					}
+						
 					if(new Random().nextInt(5)==0)
 						e.getHitBlock().setType(Material.FIRE);
 					else if(new Random().nextInt(2)==0)
-							e.getHitBlock().setType(Material.AIR);
+						e.getHitBlock().setType(Material.AIR);
+				}	
 			}
 			e.getEntity().remove();
 			
