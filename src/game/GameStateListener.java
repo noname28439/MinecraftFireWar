@@ -13,6 +13,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Blaze;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -544,8 +545,11 @@ public class GameStateListener implements Listener {
 					e.getHitBlock().setType(Material.FIRE);
 			
 			if(projectile.getType().equals(EntityType.FIREBALL))
-				if(e.getHitBlock()!=null)
-					e.getHitBlock().getWorld().spawnEntity(e.getHitBlock().getLocation(), EntityType.BLAZE);
+				if(e.getHitBlock()!=null){
+					Blaze blaze = (Blaze)e.getHitBlock().getWorld().spawnEntity(e.getHitBlock().getLocation(), EntityType.BLAZE);
+					blaze.setGlowing(true);
+					blaze.setHealth(1);
+				}
 			
 			if(projectile.getType().equals(EntityType.ARROW)) {
 				if(e.getHitBlock()!=null) {
